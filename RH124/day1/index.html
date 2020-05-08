@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第1天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH134/" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH254/" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../day2/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#1" class="nav-link">第1天</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="1">第1天</h1>
+<h3 id="_1"><font color=red>文件目录操作</font></h3>
+<p><strong>目录结构</strong></p>
+<p><img alt="" src="../images/directory_structure%20.png" /></p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>目录用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/</td>
+<td>系统的根目录</td>
+</tr>
+<tr>
+<td>/usr/bin</td>
+<td>存放普通用户的二进制文件和实用程序</td>
+</tr>
+<tr>
+<td>/usr/sbin</td>
+<td>存放root用户使用的系统管理二进制文件</td>
+</tr>
+<tr>
+<td>/etc</td>
+<td>各种服务配置文件</td>
+</tr>
+<tr>
+<td>/dev</td>
+<td>设备文件目录</td>
+</tr>
+<tr>
+<td>/proc</td>
+<td>虚拟文件系统，内存的映射</td>
+</tr>
+<tr>
+<td>/var</td>
+<td>此目录包含动态配置数据，如邮件和网站以及系统日志</td>
+</tr>
+<tr>
+<td>/tmp</td>
+<td>存储临时文件</td>
+</tr>
+<tr>
+<td>/usr</td>
+<td>包含安装的软件程序和库</td>
+</tr>
+<tr>
+<td>/home</td>
+<td>存放普通用户主目录</td>
+</tr>
+<tr>
+<td>/root</td>
+<td>root帐户的主目录</td>
+</tr>
+<tr>
+<td>/boot</td>
+<td>引导程序配置目录</td>
+</tr>
+<tr>
+<td>/lib</td>
+<td>库文件和内核模块</td>
+</tr>
+<tr>
+<td>/opt</td>
+<td>安装第三方软件</td>
+</tr>
+<tr>
+<td>/mnt</td>
+<td>临时文件系统挂载点</td>
+</tr>
+<tr>
+<td>/media</td>
+<td>可移动存储设备挂载点，如 U盘，软盘，光盘等</td>
+</tr>
+<tr>
+<td>/srv</td>
+<td>主动生产的数据、对外提供服务</td>
+</tr>
+<tr>
+<td>/run</td>
+<td>包含动态的、非永久的应用运行时数据</td>
+</tr>
+</tbody>
+</table>
+<p><strong>常用命令</strong></p>
+<blockquote>
+<p>格式：要运行的<strong>命令</strong> 调整命令行为的<strong>选项</strong> 作为命令目标的<strong>参数</strong> </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>文件</th>
+<th>目录</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>增</td>
+<td>touch（创建空文件）</td>
+<td>mkdir（创建空目录）<br/>mkdir -p（创建目录及上级目录）</td>
+</tr>
+<tr>
+<td>删</td>
+<td>rm -f（删除文件）</td>
+<td>rmdir（删除空目录）<br/>rm -rf（删除非空目录）</td>
+</tr>
+<tr>
+<td>改</td>
+<td>cp（拷贝文件）<br/>mv（移动，重命名文件）<br/>vim（文本编辑器，i 编辑，esc&amp;:wq 退出）</td>
+<td>cd（切换目录）<br/>cp -r（拷贝目录）<br/>mv（移动，重命名目录）</td>
+</tr>
+<tr>
+<td>查</td>
+<td>cat（只读方式打开文件）<br/>head（查看文件开头 10 行，-n 自定义行号）<br/>tail（查看文件结尾 10 行，-n 自定义行号）<br/>more 分页显示</td>
+<td>pwd（输出当前路径）<br/>ls（列出目录内容，-l 详细信息，-a 所有文件）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_2"><font color=red>其它常用命令</font></h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>date</td>
+<td>显示当前时间，--help 查看更多格式</td>
+</tr>
+<tr>
+<td>echo</td>
+<td>输出字符串</td>
+</tr>
+<tr>
+<td>file</td>
+<td>查看文件类型</td>
+</tr>
+<tr>
+<td>which</td>
+<td>通过 PATH 变量查找可执行程序路径</td>
+</tr>
+<tr>
+<td>wc</td>
+<td>统计，-l 行数，-w 单词数，-c 字节数</td>
+</tr>
+<tr>
+<td>diff</td>
+<td>比较两个文件内容不同之处</td>
+</tr>
+<tr>
+<td>wget</td>
+<td>下载，-r 递归，-np 不包括父目录，--reject=html 不下载 html 文件</td>
+</tr>
+<tr>
+<td>free</td>
+<td>查看内存情况</td>
+</tr>
+<tr>
+<td>history</td>
+<td>查看历史命令</td>
+</tr>
+<tr>
+<td>poweroff</td>
+<td>关机</td>
+</tr>
+<tr>
+<td>reboot</td>
+<td>重启</td>
+</tr>
+</tbody>
+</table>
+<h3 id="man"><font color=red>中文 man 帮助</font></h3>
+<p><strong>安装中文 man 软件包</strong></p>
+<pre><code>[root@localhost ~]# yum -y install man-pages-zh-CN
+</code></pre>
+
+<p><strong>使用 man -M 指定中文 man</strong></p>
+<pre><code>[root@localhost ~]# man -M /usr/share/man/zh_CN/ ls
+</code></pre>
+
+<p><strong>定义 alias 别名</strong></p>
+<pre><code>[root@localhost ~]# echo &quot;alias cman='man -M /usr/share/man/zh_CN/'&quot; &gt;&gt; /etc/bashrc
+[root@localhost ~]# source /etc/bashrc
+[root@localhost ~]# cman ls
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

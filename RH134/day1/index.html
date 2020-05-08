@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第1天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH124/" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH254/" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../day2/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#1" class="nav-link">第1天</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">正则表达式</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#vim" class="nav-link">vim</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_5" class="nav-link">计划任务</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="1">第1天</h1>
+<h2 id="_1"><font color=red>正则表达式</font></h2>
+<h3 id="grep">grep</h3>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-i</td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>反转匹配</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>显示行号</td>
+</tr>
+<tr>
+<td>-R</td>
+<td>递归目录下所有文件</td>
+</tr>
+<tr>
+<td>-A</td>
+<td>正则表达式匹配项之后的行数</td>
+</tr>
+<tr>
+<td>-B</td>
+<td>正则表达式匹配项之前的行数</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>使用多个 -e 选项可以提供多个正则表达式</td>
+</tr>
+<tr>
+<td>-E</td>
+<td>使用 egrep</td>
+</tr>
+<tr>
+<td>-F</td>
+<td>使用 fgrep</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_2">匹配符</h4>
+<p><strong>字符匹配</strong></p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>匹配项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.</code></td>
+<td>任意单个字符</td>
+</tr>
+<tr>
+<td><code>[]</code></td>
+<td><code>[]</code> 内任意单个字符</td>
+</tr>
+<tr>
+<td><code>[^]</code></td>
+<td>除了 <code>[]</code> 内任意单个字符</td>
+</tr>
+<tr>
+<td><code>[[:alnum:]]</code></td>
+<td>小写 a-z，大写 A-Z，数字 0-9 范围内任意单个字符</td>
+</tr>
+<tr>
+<td><code>[[:alpha:]]</code></td>
+<td>小写 a-z 和 大写 A-Z 范围内任意单个字符</td>
+</tr>
+<tr>
+<td><code>[a-z]</code> 或 <code>[[:lower:]]</code></td>
+<td>小写 a-z 范围内任意单个字符</td>
+</tr>
+<tr>
+<td><code>[A-Z]</code> 或 <code>[[:upper:]]</code></td>
+<td>大写 A-Z 范围内任意单个字符</td>
+</tr>
+<tr>
+<td><code>[[:digit:]]</code></td>
+<td>数字 0-9 范围内任意单个字符</td>
+</tr>
+<tr>
+<td><code>[[:punct:]]</code></td>
+<td>除空格和字母数字以外的任何可打印字符</td>
+</tr>
+</tbody>
+</table>
+<p><strong>次数匹配</strong></p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>匹配内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*</code></td>
+<td>匹配前一个字符任意次，&gt;=0 次</td>
+</tr>
+<tr>
+<td><code>\?</code></td>
+<td>匹配前一个字符 0 或 1 次</td>
+</tr>
+<tr>
+<td><code>\+</code></td>
+<td>匹配前一个字符大于等于 1 次</td>
+</tr>
+<tr>
+<td><code>\{\}</code></td>
+<td><code>\{m\}</code> 匹配前一个字符 m 次，<code>\{m,n\}</code> 匹配前一个字符 m 到 n 次，<br/><code>\{m,\}</code> 匹配前一个字符 &gt;= m 次，<code>\{0,n\}</code> 匹配前一个字符 &lt;= n 次</td>
+</tr>
+</tbody>
+</table>
+<p><strong>位置锚定</strong></p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>匹配内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>^</code></td>
+<td>行首定位符</td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>行尾定位符</td>
+</tr>
+<tr>
+<td><code>^$</code></td>
+<td>空白行</td>
+</tr>
+<tr>
+<td><code>\&lt;char</code></td>
+<td>起始字界符，或使用 <code>\bchar</code></td>
+</tr>
+<tr>
+<td><code>char\&gt;</code></td>
+<td>结束字界符，或使用 <code>char\b</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>分组</strong></p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>匹配内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\(\)</code></td>
+<td>匹配 <code>\(\)</code> 连续字符串，而不是单个字符</td>
+</tr>
+<tr>
+<td><code>\&#124;</code></td>
+<td>或者，匹配 \&#124; 左侧或右侧字符串</td>
+</tr>
+</tbody>
+</table>
+<h3 id="egrep">egrep</h3>
+<p>egrep 使用扩展正则表达式，相当于 grep -E，用法基本与 grep 相同，只是某些符号不需要转义。</p>
+<p><strong>次数匹配</strong></p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>匹配内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>?</code></td>
+<td>匹配前一个字符 0 或 1 次</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>匹配前一个字符大于 1 次</td>
+</tr>
+<tr>
+<td><code>{}</code></td>
+<td><code>{m}</code> 匹配前一个字符 m 次，<code>{m,n}</code> 匹配前一个字符 m 到 n 次，<br/><code>{m,}</code> 匹配前一个字符 &gt;= m 次，<code>{0,n}</code> 匹配前一个字符 &lt;= n 次</td>
+</tr>
+</tbody>
+</table>
+<p><strong>分组</strong></p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>匹配内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>()</code></td>
+<td>匹配 <code>()</code> 连续字符串，而不是单个字符</td>
+</tr>
+<tr>
+<td><code>&#124;</code></td>
+<td>或者，匹配 &#124; 左侧或右侧字符串</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fgrep">fgrep</h3>
+<p>fgrep 将查找内容视为固定字符串，相当于 grep -F。</p>
+<hr />
+<h2 id="vim"><font color=red>vim</font></h2>
+<p><a href="../../RH124/day2/">vim 基础部分</a></p>
+<h3 id="_3">查找替换</h3>
+<p><strong>查找替换均在 EX 模式下执行</strong></p>
+<pre><code>:%s/OLDCHAR/NEWCHAR/ig
+</code></pre>
+
+<ul>
+<li><code>:</code> 进入 EX 模式</li>
+<li><code>%s</code> 处理中文档的每一行，及整个文档，<code>%</code> 可以改为需要替换行的行号</li>
+<li><code>OLDCHAR</code> 替换前的字符串</li>
+<li><code>NEWCHAR</code> 替换后的字符串</li>
+<li><code>i</code> 忽略大小写</li>
+<li><code>g</code> 替换每一行找到的所有字符，默认指替换第一个字符</li>
+</ul>
+<h3 id="_4">寄存器</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>未命名寄存器 <code>""</code></td>
+<td>默认寄存器，最后一次操作的内容，文本来源命令：d/c/s/x/y</td>
+</tr>
+<tr>
+<td>10 个数字命名寄存器 <code>"0 - "9</code></td>
+<td>0 缓存最近一次复制的内容，1-9 缓存最近 9 次删除的内容</td>
+</tr>
+<tr>
+<td>1 个行内删除缓存寄存器 <code>"-</code></td>
+<td>缓存行内删除的文本</td>
+</tr>
+<tr>
+<td>26 个字母命名寄存器 <code>"a - "z / "A - "Z</code></td>
+<td>完全由用户指定内容的寄存器</td>
+</tr>
+<tr>
+<td>4个只读寄存器 <code>".</code> <code>"%</code> <code>"#</code> <code>":</code></td>
+<td>缓存最近插入文本、当前文件名、当前交替文件名、上次执行 ex 命令</td>
+</tr>
+<tr>
+<td>表达式寄存器 <code>"=</code></td>
+<td>使用 VIM 强大的表达式功能</td>
+</tr>
+<tr>
+<td>选择及拖拽寄存器 <code>"*</code> <code>"+</code> <code>"~</code></td>
+<td>存取 GUI 选择文本，系统剪切板（clipboard）可用时与外部应用交互，<code>"*</code> <code>"+</code> <code>"~</code> 分别为鼠标选中区域，系统剪切板，被拖拽的文本</td>
+</tr>
+<tr>
+<td>黑洞寄存器 <code>"_</code></td>
+<td>类似Linux中的/dev/null文件，只进不出，可用来滤掉影响默认寄存器的内容</td>
+</tr>
+<tr>
+<td>最后搜索寄存器 <code>"/</code></td>
+<td>缓存使用过的最后的搜索内容</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_5"><font color=red>计划任务</font></h2>
+<h3 id="at">at 一次性计划任务</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>atq</code> <code>at -l</code></td>
+<td>查看任务</td>
+</tr>
+<tr>
+<td><code>at -c</code></td>
+<td>查看任务执行的命令</td>
+</tr>
+<tr>
+<td><code>atrm</code> <code>at -r</code> <code>at -d</code></td>
+<td>删除任务</td>
+</tr>
+<tr>
+<td><code>at -f</code></td>
+<td>从文件读取任务而不是标准输入</td>
+</tr>
+<tr>
+<td><code>at -q</code></td>
+<td>指定任务队列，范围 a-z，默认是</td>
+</tr>
+<tr>
+<td><code>at -m</code></td>
+<td>任务完成后发送邮件</td>
+</tr>
+<tr>
+<td><code>at -M</code></td>
+<td>不发送邮件</td>
+</tr>
+</tbody>
+</table>
+<pre><code>at now+1min
+at&gt; echo a minute passed
+at&gt; &lt;EOT&gt;      #ctrl+d 
+</code></pre>
+
+<p>时间格式：<code>/usr/share/doc/at-3.1.13/timespec</code>
+* MINUTE HOUR
+* NOON MIDNIGHT TEATIME
+* AM PM
+* NOW
+* NEXT
+* TODAY TOMORROW
+* MINUTE HOUR DAY WEEK MONTH YEAR</p>
+<h3 id="cron">cron 周期性计划任务</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>crontab -l</code></td>
+<td>列出当前用户计划任务</td>
+</tr>
+<tr>
+<td><code>crontab -r</code></td>
+<td>删除当前用户所有计划任务</td>
+</tr>
+<tr>
+<td><code>crontab -e</code></td>
+<td>编辑当前用户计划任务</td>
+</tr>
+<tr>
+<td><code>crontab -u</code></td>
+<td>为其他用户创建任务（仅 root）</td>
+</tr>
+<tr>
+<td><code>crontab &lt;filename&gt;</code></td>
+<td>删除所有任务，从 <code>&lt;filename&gt;</code> 文件读取任务，未指定文件从 stdin 读取</td>
+</tr>
+</tbody>
+</table>
+<p>任务格式 <code>分 时 日 月 周 COMMAND</code></p>
+<ul>
+<li><code>*</code> 表示始终/无关紧要</li>
+<li>数字指定分钟数，小时数，日期，工作日等（0 表示周日，1 表示周一... ...，7 也表示周日）</li>
+<li>可以用三个字母表示月份或工作日</li>
+<li><code>x-y</code> 表示范围，从 <code>x</code> 到 <code>y</code>（含）</li>
+<li><code>x,y</code> 表示列表，<code>x</code>，<code>y</code> 为列表中单个元素</li>
+<li><code>*/x</code> 表示时间间隔为 x</li>
+<li>命令中未转义的 <code>%</code> 会被作为新行处理</li>
+</ul>
+<h3 id="systemd-tmpfile">systemd-tmpfile</h3>
+<pre><code>/etc/tmpfiles.d/*.conf        #管理员可修改的配置文件
+/usr/lib/tmpfiles.d/*.conf    #rpm软件安装的时候，自动更新的配置文件，不能更改
+/run/tmpfiles.d/*.conf        #daemon应用程序自己管理的配置文件
+</code></pre>
+
+<p><strong>配置文件格式</strong></p>
+<pre><code>类型 路径 权限 用户（UID） 组（GID） 期限 参数
+</code></pre>
+
+<blockquote>
+<p>创建文件或目录并设置相应的 属主/属组、权限。</p>
+</blockquote>
+<pre><code>systemd-tmpfiles --create
+</code></pre>
+
+<blockquote>
+<p>清理所有过期的文件与目录。</p>
+</blockquote>
+<pre><code>systemd-tmpfiles --clean
+</code></pre>
+
+<blockquote>
+<p>删除 D, R 标记的目录中的内容，以及 r, R 标记的目录与文件自身。</p>
+</blockquote>
+<pre><code>systemd-tmpfiles --remove
+</code></pre>
+
+<p>中文参考手册：
+http://www.jinbuguo.com/systemd/tmpfiles.d.html</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

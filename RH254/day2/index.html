@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第2天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH124/" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH134/" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../day1/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../day3/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#2" class="nav-link">第2天</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#dns" class="nav-link">DNS 服务</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#web" class="nav-link">WEB 服务器</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_8" class="nav-link">客户端</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="2">第2天</h1>
+<h2 id="dns"><font color=red>DNS 服务</font></h2>
+<blockquote>
+<p><font color=red>主服务器</font></p>
+</blockquote>
+<h4 id="_1">安装软件包</h4>
+<pre><code>[root@server ~]# yum -y install bind bind-untils
+</code></pre>
+
+<h4 id="localhost">对外提供服务，默认只解析 localhost</h4>
+<pre><code>[root@server ~]# vim /etc/named.conf
+... ...
+ listen-on port 53 { any; };
+ listen-on-v6 port 53 { any; };
+ allow-query     { any; };
+... ...
+
+zone &quot;google.com&quot; IN {
+        type master;
+        file &quot;google&quot;;
+};
+
+zone &quot;3.128.192.in-addr.arpa&quot; IN {
+        type master;
+        file &quot;google-reverse&quot;;
+}
+</code></pre>
+
+<h4 id="_2">创建解析数据文件</h4>
+<pre><code>[root@server ~]# chmod g+s /var/named
+[root@server ~]# cd /var/named
+[root@server named]# cp named.empty google
+[root@server named]# cp named.empty google-reverse
+[root@server named]# vim google 
+$TTL 3H
+@       IN SOA  ns.google.com. root.google.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      ns.google.com.
+ns      A       192.168.3.11
+@       A       192.168.3.11
+www     A       192.168.3.11
+[root@server named]# vim google-reverse
+$TTL 3H
+@       IN SOA  ns.google.com. root.google.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      ns.google.com.
+ns      A       192.168.3.11
+11      PTR     www.google.com.
+11      PTR     google.com.
+</code></pre>
+
+<h4 id="_3">检测配置文件语法</h4>
+<pre><code>[root@server named]# named-checkconf
+[root@server named]# named-checkzone google.com google
+[root@server named]# named-checkzone 3.128.192.in-addr.arpa google-reverse
+[root@server named]# systemctl restart named
+[root@server named]# systemctl enable named
+</code></pre>
+
+<h4 id="dns_1">客户端修改本地 DNS</h4>
+<pre><code>echo &quot;nameserver 192.168.3.11&quot;  &gt; /etc/resolv.conf
+</code></pre>
+
+<blockquote>
+<p><font color=red>主从服务器</font></p>
+</blockquote>
+<ul>
+<li>
+<p>主服务器添加从服务器参数<br/>
+<code>allow-transfer { SLAVE_IP; };</code><br/>
+<code>allow-update { none; };</code><br/>
+<code>also-notify { SLAVE_IP; };</code></p>
+</li>
+<li>
+<p>从服务器创建与主服务器相同的 zone<br/>
+<code>type slave;</code><br/>
+<code>masters { MASTER_IP };</code><br/>
+<code>masterfile-format text;</code>
+<code>allow-notify { MASTER_IP; };</code></p>
+</li>
+</ul>
+<h2 id="web"><font color=red>WEB 服务器</font></h2>
+<h4 id="apache">安装 apache</h4>
+<pre><code>[root@server0 ~]# yum -y install httpd
+</code></pre>
+
+<h4 id="_4">拷贝虚拟主机模板</h4>
+<pre><code>[root@server0 ~]# cp /usr/share/doc/httpd-2.4.6/httpd-vhosts.conf  /etc/httpd/conf.d/vhosts.conf
+</code></pre>
+
+<h4 id="_5">创建网站目录并添加首页</h4>
+<pre><code>[root@server0 ~]# echo &quot;&lt;h1&gt;this is /var/www/html&lt;/h1&gt;&quot; &gt; /var/www/html/index.html
+[root@server0 ~]# mkdir /www
+[root@server0 ~]# echo &quot;&lt;h1&gt;this is /www&lt;/h1&gt;&quot; &gt; /www/index.html
+[root@server0 ~]# mkdir /var/www/webapp
+[root@server0 ~]# echo &quot;&lt;h1&gt;this is /var/www/webapp&lt;/h1&gt;&quot; &gt; /var/www/webapp/index.html
+</code></pre>
+
+<h4 id="_6">配置虚拟主机</h4>
+<pre><code>[root@server0 ~]# vim /etc/httpd/conf.d/vhosts.conf
+</code></pre>
+
+<h6 id="1-domain">1.基于 domain</h6>
+<pre><code>&lt;VirtualHost *:80&gt;
+    DocumentRoot &quot;/var/www/html&quot;
+    ServerName server0.example.com
+&lt;/VirtualHost&gt;
+
+&lt;VirtualHost *:80&gt;
+    DocumentRoot &quot;/www&quot;
+    ServerName www0.example.com
+&lt;/VirtualHost&gt;
+
+&lt;VirtualHost *:80&gt;
+    DocumentRoot &quot;/var/www/webapp&quot;
+    ServerName webapp0.example.com
+&lt;/VirtualHost&gt;
+&lt;Directory &quot;/www&quot;&gt;
+    Require all granted
+&lt;/Directory&gt;
+
+[root@server0 ~]# firewall-cmd --add-port=80/tcp
+[root@server0 ~]# firewall-cmd --add-port=80/tcp --permanent
+[root@server0 ~]# semanage fcontext -a -t httpd_sys_content_t '/www(/.*)?'
+[root@server0 ~]# restorecon -Rv /www/
+</code></pre>
+
+<h6 id="2-ip">2.基于 ip</h6>
+<pre><code>&lt;VirtualHost *:80&gt;
+    DocumentRoot &quot;/var/www/html&quot;
+    ServerName 172.25.0.11
+&lt;/VirtualHost&gt;
+&lt;VirtualHost *:80&gt;
+    DocumentRoot &quot;/www&quot;
+    ServerName 172.25.0.12
+&lt;/VirtualHost&gt;
+&lt;VirtualHost *:80&gt;
+    DocumentRoot &quot;/var/www/webapp&quot;
+    ServerName 172.25.0.13
+&lt;/VirtualHost&gt;
+&lt;Directory &quot;/www&quot;&gt;
+    Require all granted
+&lt;/Directory&gt;
+</code></pre>
+
+<h6 id="3-port">3.基于 port</h6>
+<pre><code>&lt;VirtualHost *:80&gt;
+    DocumentRoot &quot;/var/www/html&quot;
+    ServerName 172.25.0.11
+&lt;/VirtualHost&gt;
+listen 888
+&lt;VirtualHost *:888&gt;
+    DocumentRoot &quot;/www&quot;
+    ServerName 172.25.0.11
+&lt;/VirtualHost&gt;
+listen 8888
+&lt;VirtualHost *:8888&gt;
+    DocumentRoot &quot;/var/www/webapp&quot;
+    ServerName 172.25.0.11
+&lt;/VirtualHost&gt;
+&lt;Directory &quot;/www&quot;&gt;
+    Require all granted
+&lt;/Directory&gt;
+
+[root@server0 ~]# semanage port -a -t http_port_t -p tcp 888
+[root@server0 ~]# semanage port -a -t http_port_t -p tcp 8888
+[root@server0 ~]# firewall-cmd --add-port=888/tcp --add=port=8888/tcp
+[root@server0 ~]# firewall-cmd --add-port=888/tcp --add=port=8888/tcp --permanent
+</code></pre>
+
+<h4 id="_7">修改配置文件务必重启服务应用新配置</h4>
+<pre><code>[root@server0 ~]# systemctl restart httpd
+</code></pre>
+
+<h4 id="http-ssltls-https">http 的 SSL/TLS 加密（https）</h4>
+<ul>
+<li>X.509是一个标准，规范了公开秘钥认证、证书吊销列表、授权凭证、凭证路径验证算法等。</li>
+<li>X.509证书包含三个文件：key，csr，crt</li>
+<li>key是服务器上的私钥文件，用于对发送给客户端数据的加密，以及对从客户端接收到数据的解密</li>
+<li>csr是证书签名请求文件，用于提交给证书颁发机构（CA）对证书签名</li>
+<li>
+<p>crt是由证书颁发机构（CA）签名后的证书，或者是开发者自签名的证书，包含证书持有人的信息，持有人的公钥，以及签署者的签名等信息</p>
+</li>
+<li>
+<p>第一步：生成客户端的密钥，即客户端的公私密钥对，且要保证私钥只有客户端自己拥有。</p>
+</li>
+<li>第二步：用客户端的私钥加密客户端客户端自身的信息(国家、机构、域名、邮箱等)，生成 csr 证书请求文件。其中客户端的公钥和客户端信息是明文保存在证书请求文件中的，而客户端私钥的作用是对客户端公钥及客户端信息做签名，自身是不包含在证书请求中的。然后把证书请求文件发送给CA机构。</li>
+<li>第三步：CA机构接收到客户端的证书请求文件后，首先校验其签名，然后审核客户端的信息，最后CA机构使用自己的私钥为证书请求文件签名，生成证书文件，下发给客户端。此证书就是客户端的身份证，来表明用户的身份。</li>
+</ul>
+<pre><code># ca 生成私钥和公钥
+openssl genrsa -out /etc/pki/CA/private/cakey.pem 2048
+openssl rsa -in /etc/pki/CA/private/cakey.pem -pubout -out /etc/pki/CA/private/ca.pub 
+# ca 自签名证书
+openssl req -new -x509 -key /etc/pki/CA/private/cakey.pem -out /etc/pki/CA/cacert.pem -days 3650
+# index.txt 是索引文件，用与匹配证书编号
+# serial 是证书序列号文件，只在首次生成证书时赋值
+touch /etc/pki/CA/{index.txt,serial}
+echo 01 &gt; /etc/pki/CA/serial
+# ca 为服务器签发证书
+openssl ca -in server.csr -out server.crt -cert /etc/pki/CA/cacert.pem -keyfile /etc/pki/CA/private/cakey.pem -days 365
+</code></pre>
+
+<pre><code># 服务器生成私钥和公钥
+openssl genrsa -out /etc/pki/tls/private/server.key 2048
+openssl rsa -in /etc/pki/tls/private/ca.key -pubout -out /etc/pki/tls/private/ca.pub
+openssl req -new -key /etc/pki/tls/private/server.key -out server.csr
+</code></pre>
+
+<h2 id="_8">客户端</h2>
+<blockquote>
+<p>客户端在浏览器中通过访问网站内容，注意 http 和 https</p>
+</blockquote></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

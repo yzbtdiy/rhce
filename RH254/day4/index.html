@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第4天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH124/" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH134/" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../day3/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../day5/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#4" class="nav-link">第4天</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#iscsi" class="nav-link">远程块存储 iSCSI</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">邮件服务器</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="4">第4天</h1>
+<h2 id="iscsi"><font color=red>远程块存储 iSCSI</font></h2>
+<h3 id="server">server</h3>
+<pre><code>[root@server ~]# yum -y install targetcli
+[root@server ~]# targetcli
+    &gt;/backstores/block create netdisk1 /dev/sdb
+    &gt;/iscsi create iqn.2019-06.com.example:server
+    &gt;/iscsi/iqn.2019-06.com.example:server/tpg1/acls create iqn.2019-06.com.example:desktop
+    &gt;/iscsi/iqn.2019-06.com.example:server/tpg1/luns create /backstores/server.lv1
+    &gt;/iscsi/iqn.2019-06.com.example:server/tpg1/portals delete 0.0.0.0 3260
+    &gt;/iscsi/iqn.2019-06.com.example:server/tpg1/portals create 192.168.3.11 3260
+    &gt;saveconfig
+    &gt;exit
+[root@server ~]# systemctl restart target
+[root@server ~]# systemctl enable target
+[root@server ~]# firewall-cmd --add-service=iscsi-target
+[root@server ~]# firewall-cmd --add-service=iscsi-target --permanent
+</code></pre>
+
+<h3 id="desktop">desktop</h3>
+<pre><code>[root@desktop ~]# yum -y install iscsi-initiator-utils
+[root@desktop ~]# vim /etc/iscsi/initiatorname.iscsi
+InitiatorName=iqn.2019-06.com.example:desktop（ACL）
+[root@desktop ~]# iscsiadm -m discovery -t st -p 192.168.3.11
+192.168.3.11:3260,1 iqn.2019-06.com.example:server
+[root@desktop ~]# systemctl restart iscsi iscsid
+[root@desktop ~]# iscsiadm -m node -T iqn.2019-06.com.example:server -l
+[root@desktop ~]# systemctl enable iscsi iscsid
+</code></pre>
+
+<h2 id="_1"><font color=red>邮件服务器</font></h2>
+<blockquote>
+<p>常见的邮件协议：</p>
+</blockquote>
+<ul>
+<li>简单邮件传输协议（Simple Mail Transfer Protocol，SMTP）：用于发送和中转发出的电子邮件，占用服务器的25/TCP端口。</li>
+<li>邮局协议版本3（Post Office Protocol 3）：用于将电子邮件存储到本地主机，占用服务器的110/TCP端口。</li>
+<li>Internet消息访问协议版本4（Internet Message Access Protocol 4）：用于在本地主机上访问邮件，占用服务器的143/TCP端口。</li>
+</ul>
+<blockquote>
+<p>电子邮件基本概念：</p>
+</blockquote>
+<ul>
+<li>MUA（Mail User Agent）接收邮件所使用的邮件客户端，使用IMAP或POP3协议与服务器通信</li>
+<li>MTA（Mail Transfer Agent） 通过SMTP协议发送、转发邮件</li>
+<li>MDA（Mail Deliver Agent）将MTA接收到的邮件保存到磁盘或指定地方，通常会进行垃圾邮件及病毒扫描</li>
+<li>
+<p>MRA（Mail Receive Agent）负责实现IMAP与POP3协议，与MUA进行交互</p>
+</li>
+<li>
+<p>常用的MUA有：outlook、thunderbird、mutt</p>
+</li>
+<li>常用的MTA服务有：sendmail、postfix</li>
+<li>常用的MDA有：procmail、dropmail</li>
+<li>常用的MRA有：dovecot</li>
+</ul>
+<h3 id="server_1">server</h3>
+<h4 id="_2">安装软件</h4>
+<pre><code>[root@server0 ~]# yum -y install postfix dovecot bind
+</code></pre>
+
+<h4 id="dns">配置 DNS 解析</h4>
+<pre><code>##配置端口监听和创建解析域
+[root@server0 ~]# vim /etc/named.conf
+listen-on port 53 { any; };
+listen-on-v6 port 53 { any; };
+
+allow-query     { any; };
+
+zone &quot;server.com&quot; IN {
+        type master;
+        file &quot;server&quot;;
+};
+
+zone &quot;desktop.com&quot; IN {
+        type master;
+        file &quot;desktop&quot;;
+};
+[root@server0 ~]# cp -p /var/named/named.localhost /var/named/server
+[root@server0 ~]# cp -p /var/named/named.localhost /var/named/desktop
+[root@server0 ~]# vim /var/named/server
+$TTL 1D
+@       IN SOA server.com. root.server.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        IN NS    ns.server.com.
+ns      IN A     172.25.0.11
+mail    IN A     172.25.0.11
+@       IN A     172.25.0.11
+        IN MX 10 mail.server.com.
+[root@server0 ~]# vim /var/named/desktop
+$TTL 1D
+@       IN SOA desktop.com. root.desktop.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        IN NS    ns.desktop.com.
+ns      IN A     172.25.0.10
+mail    IN A     172.25.0.10
+@       IN A     172.25.0.10
+        IN MX 10 mail.desktop.com.
+</code></pre>
+
+<h4 id="_3">检测是否存在语法错误</h4>
+<pre><code>[root@server ~]# named-checkconf
+[root@server ~]# named-checkzone server.com /var/named/server
+[root@server ~]# named-checkzone desktop.com /var/named/desktop
+</code></pre>
+
+<h4 id="dns_1">修改本地 DNS</h4>
+<pre><code>[root@server ~]# nmcli con modify &quot;System eth0&quot; ipv4.dns 172.25.0.11 ipv4.ignore-auto-dns yes
+[root@server ~]# systemctl restart NetworkManager
+</code></pre>
+
+<h4 id="postfix">配置 postfix</h4>
+<pre><code>[root@server ~]# hostnamectl set-hostname server.example.com
+[root@server ~]# postconf -e 'myhostname = server.example.com'
+[root@server ~]# postconf -e 'mydomain = mail.server.com'
+[root@server ~]# postconf -e 'myorigin = $mydomain'
+[root@server ~]# postconf -e 'inet_interfaces = all'
+[root@server ~]# postconf -e 'mydestination = $myhostname, $mydomain, localhost'
+</code></pre>
+
+<h4 id="dovecot">配置 dovecot</h4>
+<pre><code>[root@server ~]# vim /etc/dovecot/dovecot.conf
+protocols = imap pop3 lmtp
+disable_plaintext_auth = no
+login_trusted_networks = 172.25.0.0/24
+[root@server ~]# vim /etc/dovecot/conf.d/10-mail.conf
+mail_location = mbox:~/mail:INBOX=/var/mail/%u
+[root@server ~]# mkdir -p mail/.imap/INBOX
+[root@server ~]# su - student
+[student@server ~]$ mkdir -p mail/.imap/INBOX
+[root@server ~]# systemctl restart postfix dovecot
+</code></pre>
+
+<h4 id="_4">防火墙开放服务</h4>
+<pre><code>[root@desktop ~]# firewall-cmd --add-service=smtp --add-service=imap --add-service=pop3 --add-service=dns
+[root@desktop ~]# firewall-cmd --add-service=smtp --add-service=imap --add-service=pop3 --add-service=dns --permanent
+</code></pre>
+
+<h3 id="desktop_1">desktop</h3>
+<h4 id="_5">安装软件</h4>
+<pre><code>[root@desktop ~]# yum -y install postfix dovecot
+</code></pre>
+
+<h4 id="dns_2">修改本地 DNS</h4>
+<pre><code>[root@desktop ~]# nmcli con modify &quot;System eth0&quot; ipv4.dns 172.25.0.11 ipv4.ignore-auto-dns yes
+[root@desktop ~]# systemctl restart NetworkManager
+</code></pre>
+
+<h4 id="postfix_1">配置 postfix</h4>
+<pre><code>[root@desktop ~]# hostnamectl set-hostname desktop.example.com
+[root@desktop ~]# postconf -e 'myhostname = desktop.example.com'
+[root@desktop ~]# postconf -e 'mydomain = mail.desktop.com'
+[root@desktop ~]# postconf -e 'myorigin = $mydomain'
+[root@desktop ~]# postconf -e 'inet_interfaces = all'
+[root@desktop ~]# postconf -e 'mydestination = $myhostname, $mydomain, localhost'
+</code></pre>
+
+<h4 id="dovecot_1">配置 dovecot</h4>
+<pre><code>[root@desktop ~]# vim /etc/dovecot/dovecot.conf
+protocols = imap pop3 lmtp
+disable_plaintext_auth = no
+login_trusted_networks = 172.25.0.0/24
+[root@desktop ~]# vim /etc/dovecot/conf.d/10-mail.conf
+mail_location = mbox:~/mail:INBOX=/var/mail/%u
+[root@desktop ~]# mkdir -p mail/.imap/INBOX
+[root@desktop ~]# su - student
+[student@desktop ~]$ mkdir -p mail/.imap/INBOX
+[root@desktop ~]# systemctl restart postfix dovecot
+</code></pre>
+
+<h4 id="_6">防火墙开放服务</h4>
+<pre><code>[root@desktop ~]# firewall-cmd --add-service=smtp --add-service=imap --add-service=pop3
+[root@desktop ~]# firewall-cmd --add-service=smtp --add-service=imap --add-service=pop3 --permanent
+</code></pre>
+
+<h3 id="_7">测试</h3>
+<pre><code>[root@desktop ~]# echo 'test from desktop' | mail -s 'desktop to server' root@mail.server.com
+[root@server ~]# mail
+[root@server ~]# echo 'test from server' | mail -s 'server to desktop' root@mail.desktop.coms
+[root@desktop ~]# mail
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第3天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH124/" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH254/" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../day2/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../day4/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#3" class="nav-link">第3天</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">分区管理</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_3" class="nav-link">逻辑卷</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_4" class="nav-link">故障排除</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="3">第3天</h1>
+<h2 id="_1"><font color=red>分区管理</font></h2>
+<h3 id="mbr-bios">MBR 分区方案（BIOS 引导）</h3>
+<ul>
+<li>分区工具 <code>fdisk</code></li>
+<li>可以引导 32 位 或 64 位的系统</li>
+<li>主引导记录包含 64 字节硬盘分区表，每个分区信息需要 16 字节</li>
+<li>最多 4 个主分区，可以把一个主分区作为扩展分区，扩展分区可分为若干逻辑分区</li>
+<li>主分区可以激活成为活动分区，用来引导系统</li>
+<li>扩展分区不能直接使用，必须分为逻辑分区才可以使用</li>
+<li>2T 以上硬盘不适用</li>
+</ul>
+<h3 id="gpt-uefi">GPT 分区方案（UEFI 引导）</h3>
+<ul>
+<li>分区工具 <code>gdisk</code></li>
+<li>只能引导 64 位系统</li>
+<li>最多 128 个分区，全是主分区</li>
+<li>最大支持 18 EB，1EB = 1024PB，1PB =1024TB</li>
+</ul>
+<h3 id="_2">格式化、挂载</h3>
+<ul>
+<li><code>lsblk</code> 查看块设备</li>
+<li><code>blkid</code> 查看块设备 UUID（判断是否有文件系统）</li>
+<li><code>mkfs.FileSystem</code> 格式化指定块设备，为其添加文件系统</li>
+<li><code>mount</code> 用于临时挂载指定文件系统，<code>umount</code> 用于卸载文件系统</li>
+<li><code>mount -a</code> 会根据 <code>/etc/fstab</code> 文件挂载所有文件系统</li>
+<li><code>/etc/fstab</code> 文件添加对应文件系统可实现开机自动挂载</li>
+<li>使用 autofs 可实现按需自动挂载</li>
+</ul>
+<h5 id="autofs">autofs</h5>
+<pre><code>yum -y install autofs
+
+vim /etc/auto.master
+mnt（挂载目录上级目录） /etc/automount（映射文件）
+
+vim /etc/automount
+挂载目录 -fstype=文件系统类型 :/dev/sd...
+
+systemctl restart autofs
+systemctl enable autofs
+</code></pre>
+
+<h3 id="swap">SWAP 交换空间</h3>
+<ul>
+<li>交换空间用于扩充系统 RAM，应将交换空间使用保持最低限度</li>
+<li>交换空间的文件系统为 swap，格式化使用 <code>mkswap</code> 命令</li>
+<li><code>swapon</code> 用于临时激活交换空间</li>
+<li><code>swapon -a</code> 会根据 <code>/etc/fstab</code> 文件激活所有交换空间</li>
+<li><code>swapon -s</code> 查看目前激活的交换空间</li>
+<li><code>swapoff</code> 用于取消指定交换空间</li>
+<li><code>/etc/fstab</code> 文件添加对应交换空间可实现开机自动激活，挂载点为 swap</li>
+</ul>
+<h2 id="_3"><font color=red>逻辑卷</font></h2>
+<p><img alt="" src="../images/lvm.png" /></p>
+<h2 id="_4"><font color=red>故障排除</font></h2>
+<h4 id="_5">系统启动</h4>
+<ol>
+<li>BIOS/UEFI 硬件自检</li>
+<li>启动加载器（grub2）</li>
+<li>kernel 和 initramfs 初始化</li>
+<li>systemd 执行默认 target</li>
+</ol>
+<h4 id="target">部分 target</h4>
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>graphical.target</td>
+<td>图形化界面</td>
+</tr>
+<tr>
+<td>multi-user.target</td>
+<td>字符行界面</td>
+</tr>
+<tr>
+<td>rescue.target</td>
+<td>基本系统初始化完成</td>
+</tr>
+<tr>
+<td>emergency.target</td>
+<td>initramfs 回转完成，系统只读方式挂载与 / 上</td>
+</tr>
+</tbody>
+</table>
+<h3 id="root">重置 root 密码</h3>
+<ol>
+<li>开机启动菜单按e</li>
+<li>linux16 结尾加 rd.break</li>
+<li>Ctrl+x 执行</li>
+<li>mount -o remount,rw /sysroot</li>
+<li>chroot /sysroot</li>
+<li>echo redhat | passwd --stdin root</li>
+<li>touch /.autorelabel</li>
+<li>exit</li>
+<li>exit</li>
+</ol>
+<h3 id="etcfstab">/etc/fstab 文件故障</h3>
+<ol>
+<li>开机启动菜单按e</li>
+<li>linux16 结尾加 systemd.unit=emergency.target</li>
+<li>Ctrl+x 执行</li>
+<li>输入 root 密码</li>
+<li>mount -o remount,rw /</li>
+<li>vim /etc/fstab 修正错误</li>
+<li>reboot</li>
+</ol>
+<h3 id="bootgrub2grubcfg">/boot/grub2/grub.cfg 故障</h3>
+<ol>
+<li>使用外部介质引导安装镜像</li>
+<li>选择 Troubleshooting</li>
+<li>选择 Rescue a CentOS system</li>
+<li>选择 1）Continue</li>
+<li>chroot /mnt/sysimage</li>
+<li>grub2-mkconfig &gt; /boot/grub2/grub.cfg</li>
+<li>exit</li>
+<li>exit</li>
+</ol>
+<h3 id="boot">/boot 误删</h3>
+<ol>
+<li>使用外部介质引导安装镜像</li>
+<li>选择 Troubleshooting</li>
+<li>选择 Rescue a CentOS system</li>
+<li>选择 1）Continue</li>
+<li>chroot /mnt/sysimage</li>
+<li>重新安装 kernel 包（yum reinstall kernel 或 rpm --reinstall -vh /PATH_TO_CD/Packages/kernel*.rpm）</li>
+<li>grub2-install /dev/sda</li>
+<li>grub2-mkconfig &gt; /boot/grub2/grub.cfg</li>
+<li>exit</li>
+<li>exit</li>
+</ol></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

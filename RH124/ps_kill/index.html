@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>练习 16：处理进程，`ps`，`kill` - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH134/" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH254/" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../disk/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../RH134/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#16pskill" class="nav-link">练习 16：处理进程，ps，kill</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">这样做</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_2" class="nav-link">你会看到什么</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_3" class="nav-link">解释</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_4" class="nav-link">附加题</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="16pskill">练习 16：处理进程，<code>ps</code>，<code>kill</code></h1>
+<blockquote>
+<p>原文：<a href="https://archive.fo/CSqm9">Exercise 16. Processes: working with proccesses, ps, kill</a></p>
+<p>译者：<a href="https://github.com/wizardforcel">飞龙</a></p>
+<p>协议：<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+<p>自豪地采用<a href="https://translate.google.cn/">谷歌翻译</a></p>
+</blockquote>
+<p>最简单的程序是硬盘上的文件，它包含中央处理器执行的指令。当你启动它的时候，它被复制到内存，控制权传递给它。被执行的程序称为进程。在例如 Linux 的多任务操作系统中，你可以启动程序的许多实例，因此可以从一个程序启动许多进程，所有程序将同时运行（执行）。</p>
+<p>这是执行<code>ls</code>时发生的事情的概述：</p>
+<pre><code>你
+   把 ls 和它的参数输入到你的终端模拟器，然后按 &lt;ENTER&gt; 
+   控制权现在传递给 Bash 
+Bash 
+   在你的硬盘上查找 ls 
+   将自身派生到 Bash 克隆体，也就是将自己克隆到内存中的新位置
+   成为 Bash 克隆体的父进程
+   控制权传给了传递给 Bash 克隆体
+Bash 克隆体
+   成为 Bash 的子进程
+   保存 Bash 父进程的环境
+   知道它是一个克隆体并且做出相应的反应
+       使用 ls 覆盖自身
+       控制权现在传递给 ls 
+ls 
+   为你打印一个目录列表或返回错误
+   返回退出代码
+   控制权现在传递给 Bash 
+Bash 
+   将 ls 退出代码赋给 ? 变量
+   等待你的输入
+你
+   可以再次输入内容
+</code></pre>
+
+<p>一些进程不像<code>ls</code>那样交互，只是在后台静静地工作，就像<code>ssh</code>一样。进程有许多可能的状态，并且有许多操作，你可以通过信号机制对它们执行。</p>
+<p>首先让我们谈论状态。如果你键入<code>ps ax --forest</code>，它将打印出所有进程，你会得到这样的东西（跳过一些与硬件有关的进程）：</p>
+<pre><code>user1@vm1:/etc$ ps --forest ax
+  PID TTY      STAT   TIME COMMAND
+    1 ?        Ss     0:16 init [2]
+  297 ?        S&lt;s    0:00 udevd --daemon
+  392 ?        S&lt;     0:00  \_ udevd --daemon
+  399 ?        S&lt;     0:00  \_ udevd --daemon
+  691 ?        Ss     0:00 /sbin/portmap
+  703 ?        Ss     0:00 /sbin/rpc.statd
+  862 ?        Sl     0:00 /usr/sbin/rsyslogd -c4
+  886 ?        Ss     0:00 /usr/sbin/atd
+  971 ?        Ss     0:00 /usr/sbin/acpid
+  978 ?        Ss     0:01 /usr/sbin/cron
+ 1177 ?        Ss     0:00 /usr/sbin/sshd
+ 6671 ?        Ss     0:00  \_ sshd: user1 [priv]
+ 6675 ?        S      0:00      \_ sshd: user1@pts/0
+ 6676 pts/0    Ss     0:00          \_ -bash
+ 7932 pts/0    R+     0:00              \_ ps --forest ax
+ 1191 ?        Ss     0:00 /usr/sbin/exim4 -bd -q30m
+ 1210 tty2     Ss+    0:00 /sbin/getty 38400 tty2
+ 1211 tty3     Ss+    0:00 /sbin/getty 38400 tty3
+ 1212 tty4     Ss+    0:00 /sbin/getty 38400 tty4
+ 1213 tty5     Ss+    0:00 /sbin/getty 38400 tty5
+ 1214 tty6     Ss+    0:00 /sbin/getty 38400 tty6
+ 6216 tty1     Ss+    0:00 /sbin/getty 38400 tty1
+</code></pre>
+
+<p>让我们浏览这个列表：</p>
+<p><code>PID</code> - 进程 ID。每个进程都有与之相关联的唯一编号，用于唯一标识它。这意味着没有两个进程可以拥有相同的 PID。
+<code>TTY</code> - 与进程相关联的电传模拟器，允许进程与你交换信息。
+<code>STAT</code> - 当前进程状态。这将在下面详细描述。
+<code>TIME</code> - 这是在 CPU 上执行此进程的时间（以分钟为单位）。
+<code>COMMAND</code> - 这是带有参数的程序名称。请注意<code>/usr/sbin/sshd</code>是<code>sshd: user1</code>的父进程，而<code>sshd: user1</code>又是<code>sshd: user1@pts/0</code>的父进程，而<code>sshd: user1@pts/0</code>又是<code>bash</code>的父进程，而<code>bash</code>又是<code>ps –forest ax</code>的父进程。你需要更深入一些！</p>
+<p>现在让我们讨论可能的进程状态。你可以参考<code>man ps</code>的 PROCESS STATE CODES。</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D</td>
+<td>不中断睡眠（通常为 IO）。进程繁忙或挂起，不响应信号，例如硬盘已经崩溃，读操作无法完成。</td>
+</tr>
+<tr>
+<td>R</td>
+<td>运行或可运行（在运行队列中）。进程正在执行中。</td>
+</tr>
+<tr>
+<td>S</td>
+<td>中断睡眠（等待事件完成）。例如，终端进程和 Bash 通常处于此状态，等待你键入某些内容。</td>
+</tr>
+<tr>
+<td>T</td>
+<td>停止，由任务控制信号或由于被追踪。</td>
+</tr>
+<tr>
+<td>W</td>
+<td>分页（从 2.6.xx 内核起无效，所以不用担心）。</td>
+</tr>
+<tr>
+<td>X</td>
+<td>死亡（不应该看到）。</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>已停止（“僵尸”）进程，已终止，但未被父项收回。这种情况发生在错误终止的进程上。</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>高优先级（对其他用户不好）</td>
+</tr>
+<tr>
+<td>N</td>
+<td>低优先级（对其他用户很好）</td>
+</tr>
+<tr>
+<td>L</td>
+<td>将页面锁定到内存中（用于实时和自定义 IO）</td>
+</tr>
+<tr>
+<td>s</td>
+<td>是会话领导。Linux 中的相关进程被视为一个单元，并具有共享会话 ID（SID）。如果进程 ID（PID）= 会话 ID（SID），则此进程将是会话领导。</td>
+</tr>
+<tr>
+<td>L</td>
+<td>是多线程的（使用 CLONE_THREAD，例如 NPTL pthreads）</td>
+</tr>
+<tr>
+<td>+</td>
+<td>位于前台进程组。这样的处理器允许输入和输出到电传模拟器，tty。</td>
+</tr>
+</tbody>
+</table>
+<p>现在让我们讨论，与所有这些进程沟通的方式。你可以通过发送信号来实现它。信号可能是一种鞭策进程方式，所以进程会听你的话，并做出你想要的行为。这是可能的进程的缩略列表，我从<code>man kill</code>的<code>SIGNALS</code>部分获得：</p>
+<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>编号</th>
+<th>行为</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>N/A</td>
+<td>退出代码表示是否可以发送信号</td>
+</tr>
+<tr>
+<td>HUP</td>
+<td>1</td>
+<td>退出</td>
+<td>控制终端挂起或父进程死亡</td>
+</tr>
+<tr>
+<td>INT</td>
+<td>2</td>
+<td>退出</td>
+<td>来自键盘的中断</td>
+</tr>
+<tr>
+<td>QUIT</td>
+<td>3</td>
+<td>内核</td>
+<td>来自键盘的退出</td>
+</tr>
+<tr>
+<td>ILL</td>
+<td>4</td>
+<td>内核</td>
+<td>非法指令</td>
+</tr>
+<tr>
+<td>TRAP</td>
+<td>5</td>
+<td>内核</td>
+<td>跟踪/断点捕获</td>
+</tr>
+<tr>
+<td>ABRT</td>
+<td>6</td>
+<td>内核</td>
+<td>来自<code>abort(3)</code>的中止信号</td>
+</tr>
+<tr>
+<td>FPE</td>
+<td>8</td>
+<td>内核</td>
+<td>浮点异常</td>
+</tr>
+<tr>
+<td>KILL</td>
+<td>9</td>
+<td>退出</td>
+<td>不可捕获，不可忽视的杀死</td>
+</tr>
+<tr>
+<td>SEGV</td>
+<td>11</td>
+<td>内核</td>
+<td>内存引用无效</td>
+</tr>
+<tr>
+<td>PIPE</td>
+<td>13</td>
+<td>退出</td>
+<td>损坏的管道：写入没有读者的管道</td>
+</tr>
+<tr>
+<td>ALRM</td>
+<td>14</td>
+<td>退出</td>
+<td>来自<code>alarm(2)</code>的定时器信号</td>
+</tr>
+<tr>
+<td>TERM</td>
+<td>15</td>
+<td>退出</td>
+<td>终止进程</td>
+</tr>
+</tbody>
+</table>
+<p>同样，不要因为不理解而害怕，因为现在你只需要了解<code>HUP</code>，<code>TERM</code>和<code>KILL</code>。甚至有一首关于<code>KILL</code>信号的歌曲 ，命名为<a href="http://www.monzy.com/intro/killdashnine_lyrics.html">《Kill dash nine》</a>。另外，注意到<code>abort(3)</code>和<code>alarm(2)</code>了么？这意味着你可以通过键入<code>man 3 abort</code>和<code>man 2 alarm</code>来阅读相应的手册页。</p>
+<p>现在，你将学习如何列出正在运行的进程并向其发送信号。</p>
+<h2 id="_1">这样做</h2>
+<pre><code> 1: ps x
+ 2: ps a
+ 3: ps ax
+ 4: ps axue --forest
+ 5: dd if=/dev/zero of=~/test.img bs=1 count=$((1024*1024*1024)) &amp;
+ 6: kill -s USR1 $!
+ 7: &lt;ENTER&gt;
+ 8: kill -s USR1 $!
+ 9: &lt;ENTER&gt;
+10: kill -s TERM $!
+11: &lt;ENTER&gt;
+</code></pre>
+
+<h2 id="_2">你会看到什么</h2>
+<pre><code>user1@vm1:/etc$ ps x
+  PID TTY      STAT   TIME COMMAND
+ 6675 ?        S      0:00 sshd: user1@pts/0
+ 6676 pts/0    Ss     0:00 -bash
+ 8193 pts/0    R+     0:00 ps x
+user1@vm1:/etc$ ps a
+  PID TTY      STAT   TIME COMMAND
+ 1210 tty2     Ss+    0:00 /sbin/getty 38400 tty2
+ 1211 tty3     Ss+    0:00 /sbin/getty 38400 tty3
+ 1212 tty4     Ss+    0:00 /sbin/getty 38400 tty4
+ 1213 tty5     Ss+    0:00 /sbin/getty 38400 tty5
+ 1214 tty6     Ss+    0:00 /sbin/getty 38400 tty6
+ 6216 tty1     Ss+    0:00 /sbin/getty 38400 tty1
+ 6676 pts/0    Ss     0:00 -bash
+ 8194 pts/0    R+     0:00 ps a
+user1@vm1:/etc$ ps ax
+  PID TTY      STAT   TIME COMMAND
+    1 ?        Ss     0:16 init [2]
+--- skipped --- skipped --- skipped ---
+  691 ?        Ss     0:00 /sbin/portmap
+  703 ?        Ss     0:00 /sbin/rpc.statd
+  862 ?        Sl     0:00 /usr/sbin/rsyslogd -c4
+  886 ?        Ss     0:00 /usr/sbin/atd
+  971 ?        Ss     0:00 /usr/sbin/acpid
+  978 ?        Ss     0:01 /usr/sbin/cron
+ 1177 ?        Ss     0:00 /usr/sbin/sshd
+ 1191 ?        Ss     0:00 /usr/sbin/exim4 -bd -q30m
+ 1210 tty2     Ss+    0:00 /sbin/getty 38400 tty2
+ 1211 tty3     Ss+    0:00 /sbin/getty 38400 tty3
+ 1212 tty4     Ss+    0:00 /sbin/getty 38400 tty4
+ 1213 tty5     Ss+    0:00 /sbin/getty 38400 tty5
+ 1214 tty6     Ss+    0:00 /sbin/getty 38400 tty6
+ 6216 tty1     Ss+    0:00 /sbin/getty 38400 tty1
+ 6671 ?        Ss     0:00 sshd: user1 [priv]
+ 6675 ?        S      0:00 sshd: user1@pts/0
+ 6676 pts/0    Ss     0:00 -bash
+ 8198 pts/0    R+     0:00 ps ax
+user1@vm1:/etc$ ps axue --forest
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+--- skipped --- skipped --- skipped ---
+root         1  0.0  0.0   8356   820 ?        Ss   Jun06   0:16 init [2]
+root       297  0.0  0.0  16976  1000 ?        S&lt;s  Jun06   0:00 udevd --daemon
+root       392  0.0  0.0  16872   840 ?        S&lt;   Jun06   0:00  \_ udevd --daemon
+root       399  0.0  0.0  16872   836 ?        S&lt;   Jun06   0:00  \_ udevd --daemon
+daemon     691  0.0  0.0   8096   532 ?        Ss   Jun06   0:00 /sbin/portmap
+statd      703  0.0  0.0  14384   868 ?        Ss   Jun06   0:00 /sbin/rpc.statd
+root       862  0.0  0.1  54296  1664 ?        Sl   Jun06   0:00 /usr/sbin/rsyslogd -c4
+daemon     886  0.0  0.0  18716   436 ?        Ss   Jun06   0:00 /usr/sbin/atd
+root       971  0.0  0.0   3920   644 ?        Ss   Jun06   0:00 /usr/sbin/acpid
+root       978  0.0  0.0  22400   880 ?        Ss   Jun06   0:01 /usr/sbin/cron
+root      1177  0.0  0.1  49176  1136 ?        Ss   Jun06   0:00 /usr/sbin/sshd
+root      6671  0.0  0.3  70496  3284 ?        Ss   Jun26   0:00  \_ sshd: user1 [priv]
+user1     6675  0.0  0.1  70496  1584 ?        S    Jun26   0:00      \_ sshd: user1@pts/0
+user1     6676  0.0  0.6  23644  6536 pts/0    Ss   Jun26   0:00          \_ -bash LANG=en_US.UTF-8 USER=user1 LOGNAME=user1 HOM
+user1     8199  0.0  0.1  16312  1088 pts/0    R+   17:07   0:00              \_ ps axue --forest TERM=screen-bce SHELL=/bin/bas
+101       1191  0.0  0.1  44148  1076 ?        Ss   Jun06   0:00 /usr/sbin/exim4 -bd -q30m
+root      1210  0.0  0.0   5932   616 tty2     Ss+  Jun06   0:00 /sbin/getty 38400 tty2
+root      1211  0.0  0.0   5932   612 tty3     Ss+  Jun06   0:00 /sbin/getty 38400 tty3
+root      1212  0.0  0.0   5932   612 tty4     Ss+  Jun06   0:00 /sbin/getty 38400 tty4
+root      1213  0.0  0.0   5932   612 tty5     Ss+  Jun06   0:00 /sbin/getty 38400 tty5
+root      1214  0.0  0.0   5932   616 tty6     Ss+  Jun06   0:00 /sbin/getty 38400 tty6
+root      6216  0.0  0.0   5932   612 tty1     Ss+  Jun14   0:00 /sbin/getty 38400 tty1
+user1@vm1:/etc$ dd if=/dev/zero of=~/test.img bs=1 count=$((1024*1024*1024)) &amp;
+[1] 8200
+user1@vm1:/etc$ kill -s USR1 $!
+user1@vm1:/etc$ 1455424+0 records in
+1455424+0 records out
+1455424 bytes (1.5 MB) copied, 1.76646 s, 824 kB/s
+
+user1@vm1:/etc$ kill -s USR1 $!
+user1@vm1:/etc$ 3263060+0 records in
+3263060+0 records out
+3263060 bytes (3.3 MB) copied, 3.94237 s, 828 kB/s
+
+user1@vm1:/etc$ kill -s TERM $!
+user1@vm1:/etc$
+[1]+  Terminated              dd if=/dev/zero of=~/test.img bs=1 count=$((1024*1024*1024))
+user1@vm1:/etc$
+</code></pre>
+
+<h2 id="_3">解释</h2>
+<ol>
+<li>打印你拥有（启动）的进程。</li>
+<li>仅打印与终端（<code>tty</code>）相关的进程和你拥有（启动）的进程。</li>
+<li>打印所有正在运行的进程。</li>
+<li>以树形式打印所有正在运行的进程，并包含附加信息，例如可用的相关用户名和环境。请注意，此信息仅适用于你拥有（启动）的进程。为了查看所有进程的环境信息，请输入<code>sudo ps axue --forest</code>。</li>
+<li>开始创建一个零填充文件（填充为空字符，现在不要纠结），并通过在末尾指定<code>&amp;</code>发送到后台。</li>
+<li>查询<code>dd</code>的状态。</li>
+<li>因为 bash 只能打印一些东西来回应你的输入，你需要按<code>&lt;ENTER&gt;</code>（发出空指令）。</li>
+<li>再次查询<code>dd</code>的状态。</li>
+<li>同样，你需要按<code>&lt;ENTER&gt;</code>来查看输出。</li>
+<li>向<code>dd</code>发送终止信号，所以<code>dd</code>退出了。</li>
+<li>为了看到它确实发生了，你需要再次按<code>&lt;ENTER&gt;</code>键 。</li>
+</ol>
+<h2 id="_4">附加题</h2>
+<ul>
+<li>阅读<code>man ps</code>，<code>man kill</code>。</li>
+<li>阅读<a href="http://www.linux-tutorial.info/modules.php?name=MContent&amp;pageid=84">进程的生命周期</a>，并研究这张图片：<a href="http://www.linux-tutorial.info/Linux_Tutorial/The_Operating_System/The_Kernel/Processes/procflowa.gif">进程的工作流</a>。</li>
+<li>打印并填写<a href="https://nixsrv.com/llthw/ex16/signals">信号表</a>。你可以使用 <a href="http://www.kernel.org/doc/man-pages/online/pages/man7/signal.7.html%23DESCRIPTION">kernel.org 中的文档</a>。</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第5天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH134/" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH254/" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../day4/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../day6/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#5" class="nav-link">第5天</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">日志</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#tar" class="nav-link">压缩归档 tar</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_2" class="nav-link">远程复制文件</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="5">第5天</h1>
+<h2 id="_1"><font color=red>日志</font></h2>
+<h3 id="systemd-journald-rsyslog">systemd-journald 和 rsyslog</h3>
+<ul>
+<li>进程和操作系统内核需能够为发生的事件记录日志</li>
+<li>日志内容可用于系统审计和故障排除</li>
+<li>RHEL7 的日志系统由<code>systemd-journald</code>和 <code>rsyslog</code> 两个服务提供</li>
+<li>RHEL7 中，<code>systemd</code> 的日志保存在 <code>/run/log/journal</code> 中，系统重启就会清除。通过新建 <code>/var/log/journal</code> 目录，日志会自动记录到这个目录中，并永久存储</li>
+<li><code>rsyslog</code> 服务随后根据优先级排列日志信息，将它们写入到 <code>/var/log</code>目录中永久保存</li>
+<li><code>systemd-journald</code> 是一种改进的日志管理服务，是 <code>syslog</code> 的补充，收集来自内核、启动过程早期阶段、标准输出、系统日志，守护进程启动和运行期间错误的信息</li>
+</ul>
+<pre><code>systemd ---&gt; systemd-journald ---&gt; ram DB ---&gt; rsyslog ---&gt; /var/log
+service daemon ---&gt; rsyslog ---&gt; /var/log
+</code></pre>
+
+<h3 id="logger-p">logger -p</h3>
+<blockquote>
+<p>-p， --priority priority_level</p>
+</blockquote>
+<pre><code>指定输入消息日志级别，优先级可以是数字或者指定为 &quot; facility.level&quot; 的格式。默认级别是 &quot;user.notice&quot;。
+       facility：是用来定义由谁产生的日志信息：那个软件、子系统运行过程中产生的日志信息。
+             auth              用户授权
+             authpriv          授权和安全
+             cron              计划任务
+             daemon            系统守护进程
+             kern              与内核有关的信息
+             lpr               与打印服务有关的信息
+             mail              与电子邮件有关的信息
+             news              来自新闻服务器的信息
+             syslog            由 syslog 生成的信息
+             user              用户的程序生成的信息，默认
+             ftp               与 ftp 有关 的信息
+             uucp              由 uucp 生成的信息
+             local0~7          用来定义本地策略
+
+     level：是用来定义记录什么类型的日志信息。是应用程序产生的所有信息都把它记录到日志 文件中呢，还是只记录该应用程序的错误日志信息等等。
+             emerg(0)          系统不可用
+             alert(1)          需要立即采取动作
+             crit(2)           严重状况
+             error(3)          非常严重错误状况
+             warning(4)        警告状况
+             notice(5)         正常但要注意
+             info(6)           信息性事件
+             debug(7)          调试级别消息
+</code></pre>
+
+<p><img alt="log" src="images\log.jpg" /></p>
+<h3 id="systemd">systemd 日志持久化</h3>
+<pre><code>mkdir /var/log/journal
+chown root:systemd-journal /var/log/journal
+chmod 2755 /var/log/journal
+killall -USER1 systemd-journald
+</code></pre>
+
+<h2 id="tar"><font color=red>压缩归档 tar</font></h2>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-c</td>
+<td>创建存档</td>
+</tr>
+<tr>
+<td>-z</td>
+<td>使用 gzip 压缩方式（.tgz 或 .tar.gz）</td>
+</tr>
+<tr>
+<td>-j</td>
+<td>使用 bzip2 压缩方式（.tar.bz2）</td>
+</tr>
+<tr>
+<td>-J</td>
+<td>使用 xz 压缩方式（.tar.xz）</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>详细信息，显示存档或提取的的文件</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>要操作的存档文件名</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>提取存档内容</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>列出存档内容</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>保留文件和目录的权限，不去除umask</td>
+</tr>
+<tr>
+<td>-C</td>
+<td>指定解压到的目录</td>
+</tr>
+<tr>
+<td>-P</td>
+<td>压缩时保留绝度路径</td>
+</tr>
+</tbody>
+</table>
+<p>压缩率：gzip &lt; bzip2 &lt; xz
+压缩速度：gzip &gt; bzip2 &gt; xz</p>
+<h2 id="_2"><font color=red>远程复制文件</font></h2>
+<blockquote>
+<p>scp</p>
+</blockquote>
+<pre><code>scp 本地文件 远程用户@远程主机:/保存位置
+scp 远程用户@远程主机:/文件路径 本地保存位置
+</code></pre>
+
+<p>选项：
+* -r 递归，复制目录使用
+* -p 保留时间和权限</p>
+<blockquote>
+<p>sftp</p>
+</blockquote>
+<pre><code>sftp root@server0
+&gt;cd /tmp       #cd 服务端 /tmp 目录
+&gt;ls            #查看服务端 /tmp 内容
+&gt;lcd /etc      #cd 客户端 /etc 目录
+&gt;put passwd    #上传 passwd 文件
+&gt;lcd /boot     #cd 客户端 /boot 目录
+&gt;mkdir grub2   #服务端创建上传目录同名目录
+&gt;put -r grub2  #上传 grub2 目录
+&gt;ls            #查看服务端 /tmp 内容
+&gt;lcd /tmp      #cd 客户端 /tmp 目录
+&gt;lls           #查看客户端 /tpm 目录内容
+&gt;get passwd    #从服务端下载 passwd 文件
+&gt;get -r grub2  #从服务端下载 grub2 目录
+&gt;lls           #查看客户端 /tmp 目录内容
+</code></pre>
+
+<p>选项：
+* -r 递归，上传或下载目录使用，上传目录必须在服务端口同名目录
+* -p 保留时间和权限</p>
+<blockquote>
+<p>rsync</p>
+</blockquote>
+<pre><code>rsync 本地目录 远程用户@远程主机:/保存位置
+rsync 远程用户@远程主机:/目录路径 本地保存位置
+</code></pre>
+
+<p>选项：
+* -av    -a 存档模式，-v 详细信息</p>
+<p>-a 代表：
+-r 递归，-l 同步符号链接，-p 保留权限，-t 保留时间戳，-g 保留组所有权，-o 保留所有者，-D 同步设备文件</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

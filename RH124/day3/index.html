@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第3天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH134/" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH254/" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../day2/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../day4/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#3" class="nav-link">第3天</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">权限控制</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_4" class="nav-link">进程监控</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="3">第3天</h1>
+<h2 id="_1"><font color=red>权限控制</font></h2>
+<h3 id="_2">权限查看</h3>
+<pre><code>[root@server ~]# ls -l
+-rw-------. 1 root root 1100 Jan 22 10:25 anaconda-ks.cfg
+文件类型、权限 硬链接数 所有者名 所属组名 大小 修改时间 文件名
+</code></pre>
+
+<h3 id="ugo">UGO 权限</h3>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>文件</th>
+<th>目录</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r（Read，读取）</td>
+<td>对文件而言，具有读取文件内容的权限。</td>
+<td>对目录而言，具有浏览目录的权限。</td>
+</tr>
+<tr>
+<td>w（Write，写入）</td>
+<td>对文件而言，具有新增、修改、删除文件内容的权限</td>
+<td>对目录而言，具有新建、删除、修改、移动目录内文件的权限。</td>
+</tr>
+<tr>
+<td>x（eXecute，执行）</td>
+<td>对文件而言，具有执行文件的权限。</td>
+<td>对目录而言，具有进入该目录的权限。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ugo_1">特殊权限（UGO+）</h3>
+<table>
+<thead>
+<tr>
+<th>特殊权限</th>
+<th>文件</th>
+<th>目录</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>suid（u+s）</td>
+<td>以文件所有者身份去执行二进制文件，而不是运行文件的用户身份执行。</td>
+<td>无影响。</td>
+</tr>
+<tr>
+<td>sgid（g+s）</td>
+<td>以文件的所属组身份执行二进制文件。</td>
+<td>在该目录中新建的文件或目录所属组继承该目录的所属组。</td>
+</tr>
+<tr>
+<td>sticky（o+t）</td>
+<td>无影响。</td>
+<td>对该目录有写权限的用户仅可以删除自己的文件，无法删除或强制保存更改到其他用户所拥有的的文件，root 用户除外。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">权限修改</h3>
+<p><strong>符号关键字</strong>：</p>
+<pre><code>chmod WhoWhatWhich file|directory
+</code></pre>
+
+<ul>
+<li>Who：u（所有者），g（所属组），o（其他人），a（所有） </li>
+<li>What：+，-，=</li>
+<li>Which：r（读），w（写），x（执行）,s（suid，sgid），t（sticky）</li>
+</ul>
+<blockquote>
+<p>修改目录可以使用 -R 选项递归</p>
+</blockquote>
+<p><strong>数值</strong>：</p>
+<pre><code>chmod [0-7][0-7][0-7][0-7] file|directory
+</code></pre>
+
+<ul>
+<li>第一位：特殊权限（u+s:4，g+s:2，o+t:1）</li>
+<li>第二位：所有者（r:4，w:2，x:1）</li>
+<li>第三位：所属组（r:4，w:2，x:1）</li>
+<li>第四位：其他人（r:4，w:2，x:1）</li>
+</ul>
+<blockquote>
+<p>若无特殊权限用后三位表示</p>
+</blockquote>
+<h3 id="umask">umask</h3>
+<ul>
+<li>root 默认 umask：0022 </li>
+<li>普通用户默认 umask：0002</li>
+<li>文件默认权限：777 - umask</li>
+<li>目录默认权限：666 - umask</li>
+</ul>
+<h2 id="_4"><font color=red>进程监控</font></h2>
+<h3 id="_5">什么是进程？</h3>
+<blockquote>
+<p>程序是一个包含可以执行代码的静态的文件。进程是一个开始执行但是还没有结束的程序的实例。
+当程序被系统调用到内存以后，系统会给程序分配一定的资源（内存，设备等等）然后进行一系列的复杂操作，使程序变成进程以供系统调用。</p>
+</blockquote>
+<h3 id="_6">进程的分类</h3>
+<p><strong>系统进程</strong></p>
+<blockquote>
+<p>可以执行内存资源分配和进程切换等管理工作，而且该进程的运行不受用户的干预，即使是root用户也不能干预系统进程的运行。</p>
+</blockquote>
+<p><strong>用户进程</strong></p>
+<blockquote>
+<p>通过执行用户程序、应用程序或内核之外的系统程序而产生的进程，此类进程可以在用户的控制下运行或关闭。用户进程可以分为3类：</p>
+</blockquote>
+<ul>
+<li><strong>交互进程</strong>：由一个Shell终端其他的进程，在执行过程中，需要与用户进行交互操作，可以运行于前台，也可以运行于后台。</li>
+<li><strong>批处理进程</strong>：该进程是一个进程集合，负责按顺序启动其他的进程。</li>
+<li><strong>守护进程</strong>：守护进程是一直运行的一种进程，经常在Linux系统时启动，在系统关闭时终止。它们独立于控制终端且周期性地质学某种任务或等待处理某些发生的时间。例，httpd进程，crond进程等。</li>
+</ul>
+<h3 id="_7">查看进程</h3>
+<ul>
+<li>ps aux  <br />
+a 显示现行终端下进程，包括其他用户的  <br />
+u 以用户为主显示  <br />
+x 显示没有终端的进程    </li>
+<li>ps -ef  <br />
+-e 所有进程  <br />
+-f 全格式    </li>
+<li>top 实时进程状态</li>
+</ul>
+<p><strong>进程状态</strong></p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R</td>
+<td>进程正在执行系统调用<br/>进程已调度，但尚未在 CPU 上</td>
+</tr>
+<tr>
+<td>S</td>
+<td>进程在提示符处，需要用户输入<br/>进程正在等待 I/O</td>
+</tr>
+<tr>
+<td>D</td>
+<td>进程不可中断等待设备响应</td>
+</tr>
+<tr>
+<td>T</td>
+<td>进程已被临时停止</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>进程刚被终止</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_8">前台、后台作业</h3>
+<ul>
+<li>执行命令时结尾加 <code>&amp;</code> 可将任务置于后台执行</li>
+<li><code>jobs</code> 可以查看后台作业</li>
+<li><code>bg ID</code> 可将后台停止作业重新在后台执行</li>
+<li><code>fg ID</code> 可将后台作业置于前台运行</li>
+</ul>
+<h3 id="_9">进程发送信号</h3>
+<ul>
+<li>kill</li>
+<li>killall</li>
+<li>pkill</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>信号编号</th>
+<th>名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>SIGHUP</td>
+<td>挂起</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SIGINT</td>
+<td>键盘中断（ctrl+c）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>SIGQUIT</td>
+<td>键盘退出</td>
+</tr>
+<tr>
+<td>9</td>
+<td>SIGKILL</td>
+<td>强制终止，无法拦截</td>
+</tr>
+<tr>
+<td>15</td>
+<td>SIGTERM</td>
+<td>友好终止</td>
+</tr>
+<tr>
+<td>18</td>
+<td>SIGCONT</td>
+<td>继续，无法拦截</td>
+</tr>
+<tr>
+<td>19</td>
+<td>SIGSTOP</td>
+<td>停止，无法拦截</td>
+</tr>
+<tr>
+<td>20</td>
+<td>SIGTSTP</td>
+<td>键盘停止（ctrl+z）</td>
+</tr>
+</tbody>
+</table>
+<p><a href="../ps_kill/">笨办法学Linux-处理进程, ps,  kill </a></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

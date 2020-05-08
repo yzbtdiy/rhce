@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第3天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH124/" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH134/" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../day2/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../day4/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#3" class="nav-link">第3天</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#ftp" class="nav-link">FTP 文件传输</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#nfs" class="nav-link">NFS 共享</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#samba" class="nav-link">samba 共享</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="3">第3天</h1>
+<h2 id="ftp"><font color=red>FTP 文件传输</font></h2>
+<h3 id="server">server</h3>
+<h4 id="vsftpd">安装 vsftpd</h4>
+<pre><code>[root@server ~]# yum -y install vsftpd
+</code></pre>
+
+<blockquote>
+<p>配置文件 <code>/etc/vsftpd/vsftpd.conf</code></p>
+</blockquote>
+<h4 id="1">1.  匿名访问</h4>
+<ul>
+<li>anonymous_enable=YES        开启匿名访问       </li>
+<li>anon_umask=022        匿名用户上传的 umask 值</li>
+<li>anon_upload_enable=YES        允许匿名用户上传文件</li>
+<li>anon_mkdir_write_enable=YES        允许匿名用户创建目录</li>
+<li>anon_other_write_enable=YES        允许匿名用户修改或删除目录</li>
+</ul>
+<h4 id="2">2. 本地用户</h4>
+<ul>
+<li>anonymous_enable=NO        禁止匿名访问</li>
+<li>local_enable=YES        开启本地本地用户访问</li>
+<li>write_enable=YES        是否有写权限</li>
+<li>local_umask=022   本地用户上传文件的 umask 值</li>
+<li>userlist_enable=YES   使用用户列表，名单文件为 user_list（可能是白名单，也可能是黑名单）和 ftpuser（始终是黑名单）</li>
+<li>userlist_deny=YES     开启用户作用名单文件功能</li>
+<li><strong>userlist_enable=YES, userlist_deny=YES</strong><br/>
+user_list 为黑名单，禁止 user_list 中用户登录  </li>
+<li><strong>userlist_enable=YES, userlist_deny=NO</strong><br/>
+user_list 为白名单，仅允许 user_list 中的用户登录</li>
+<li>chroot_local_user=YES        用户禁锢在主目录，不允许跳转上级目录</li>
+<li>chroot_list_enable=YES        是否使用禁锢用户列表</li>
+<li><strong>chroot_local_user=YES, chroot_list_enable=YES</strong><br/>
+chroot_list_file 为白名单，不受限制</li>
+<li><strong>chroot_local_user=NO, chroot_list_enable=YES</strong><br/>
+chroot_list_file 为黑名单，受到限制</li>
+<li><strong>chroot_local_user=YES, chroot_list_enable=NO</strong><br/>
+所有用户都受到限制，chroot_list_file 无作用</li>
+<li><strong>chroot_local_user=NO, chroot_list_enable=NO</strong><br/>
+所有用户都不受限制，chroot_list_file 无作用</li>
+</ul>
+<p><strong>如果用户受到禁锢，那么要添加 allow_writeable_chroot=YES，或者取消主目录的写权限</strong></p>
+<h4 id="3_1">3. 虚拟用户</h4>
+<ul>
+<li>anonymous_enable=NO        禁止匿名访问</li>
+<li>local_enable=YES        开启本地本地用户访问</li>
+<li>guest_enable=YES        开启虚拟用户访问</li>
+<li>guest_username=virtftp        指定虚拟用户使用的系统用户</li>
+<li>pam_service_name=ftpvuser       指定PAM文件</li>
+<li>user_config_dir=/etc/vsftpd/vusers_conf        指定虚拟用户配置文件</li>
+<li>allow_writeable_chroot=YES        允许写入禁锢的目录</li>
+</ul>
+<pre><code>[root@server ~]# useradd virtftp -s /sbin/nologin
+[root@server ~]# vim /etc/vsftpd/vuser.list
+virtuser1
+redhat
+virtuser2
+redhat
+[root@server ~]# db_load -T -t hash /etc/vsftpd/vuser.list /etc/vsftpd/vuser.db
+[root@server ~]# vim /etc/pam.d/ftpvuser
+auth       required     pam_userdb.so db=/etc/vsftpd/vuser
+account    required     pam_userdb.so db=/etc/vsftpd/vuser
+[root@server ~]# mkdir /etc/vsftpd/vuser_conf
+[root@server ~]# vim /etc/vsftpd/vuser_conf/virtuser1
+local_root=/home/virtftp/virtuser1
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+anon_other_write_enable=YES
+[root@server ~]# mkdir /home/virtftp/virtuser1
+[root@server ~]# chmod 777 /home/virtftp/virtuser1
+</code></pre>
+
+<h3 id="desktop-ftp">desktop 使用 ftp 客户端工具访问</h3>
+<h2 id="nfs"><font color=red>NFS 共享</font></h2>
+<h3 id="server_1">server</h3>
+<h4 id="nfs-utils">安装软件包 nfs-utils</h4>
+<pre><code>[root@server ~]# yum -y install nfs-utils
+</code></pre>
+
+<h4 id="etcexports">编辑 <code>/etc/exports</code> 文件，添加共享</h4>
+<pre><code>[root@server ~]# vim /etc/exports
+/nfsshare 192.168.3.*(OPTIONS)
+</code></pre>
+
+<p>常用 OPTIONS 包括：
+* <code>ro</code> 只读<br/>
+<code>rw</code> 读写 
+* <code>root_squash</code>    映射 root 为 nfs 匿名用户<br/>
+<code>no_root_squash</code>    不映射 root 为 nfs 匿名用户<br/>
+<code>all_squash</code>    映射所有用户为 nfs 匿名用户<br/>
+<code>no_all_squash</code>   不映射 nfs 匿名用户，访问用户与本地匹配（UID）</p>
+<ul>
+<li><code>sync</code> 同步<br/>
+<code>async</code> 异步</li>
+</ul>
+<h4 id="_1">重启服务，开放防火墙服务</h4>
+<pre><code>[root@server ~]# systemctl restart nfs-server
+[root@server ~]# systemctl enable nfs-server
+[root@server ~]# firewall-cmd --add-service=mountd --add-service=rpc-bind --add-service=nfs
+[root@server ~]# firewall-cmd --add-service=mountd --add-service=rpc-bind --add-service=nfs --permanent
+[root@server ~]# exportfs -rfv
+</code></pre>
+
+<h3 id="desktop">desktop</h3>
+<h4 id="_2">临时挂载</h4>
+<pre><code>[root@desktop ~]# yum -y install nfs-utils
+[root@desktop ~]# showmount -e 192.168.3.11
+[root@desktop ~]# mkdir /mnt/nfsmount
+[root@desktop ~]# mount -t nfs 192.168.3.11:/nfsshare /mnt/nfsmount
+</code></pre>
+
+<h4 id="_3">开机自动挂载</h4>
+<pre><code>[root@desktop ~]# vim /etc/fstab
+192.168.3.11:/nfsshare    /mnt/nfsmount    nfs    defaults    0 0
+</code></pre>
+
+<h4 id="autofs">autofs 挂载</h4>
+<pre><code>[root@desktop ~]# yum -y install autofs
+[root@desktop ~]# vim /etc/auto.master
+/netshare（挂载目录上级目录） /etc/netauto（映射文件）
+[root@desktop ~]# vim /etc/nfsauto
+nfsmount -fstype=nfs,rw 192.168.3.11:/nfs
+</code></pre>
+
+<h2 id="samba"><font color=red>samba 共享</font></h2>
+<h3 id="server_2">server</h3>
+<h4 id="samba_1">安装 samba</h4>
+<pre><code>[root@server ~]# yum -y install samba
+</code></pre>
+
+<h4 id="_4">新建共享</h4>
+<pre><code>[root@server ~]# vim /etc/samba/smb.conf
+workgroup = WORKGROUP
+hosts allow = 127. 192.168.3.
+
+[public]    ##共享名
+comment = Public Stuff  ##说明
+path = /smbpub  ##路径
+public = no    ##公开，可匿名访问
+writable = yes   ##是否可写
+printable = no   ##是否是打印机，如果共享目录必须为no
+write list = smbrw  ##可写名单
+read list = smbro   ##只读名单
+browseable = yes  ##可浏览
+</code></pre>
+
+<h4 id="_5">创建共享目录，设置权限</h4>
+<pre><code>[root@server ~]# mkdir /smbpub
+[root@server ~]# chmod 777 /smbpub
+[root@server ~]# semanage fcontext -a -t samba_share_t '/smbpub(/.*)?'
+[root@server ~]# restorecon -Rv /smbpub/
+</code></pre>
+
+<h4 id="samba_2">创建 samba 用户</h4>
+<p><strong>samba 用户必须在系统中存在，通过 pdbedit 和 smbclient 均可创建 samba 用户</strong></p>
+<pre><code>[root@server ~]# useradd -s /sbin/nologin smbrw
+[root@server ~]# useradd -s /sbin/nologin smbro
+[root@server ~]# (echo redhat;echo redhat) | pdbedit -a smbrw
+[root@server ~]# (echo redhat;echo redhat) | smbpasswd -a smbro
+[root@server ~]# systemctl restart smb nmb
+[root@server ~]# systemctl enable smb nmb
+</code></pre>
+
+<h4 id="_6">开放防火墙</h4>
+<pre><code>[root@server ~]# firewall-cmd --add-service=samba --add-service=samba-client
+[root@server ~]# firewall-cmd --add-service=samba --add-service=samba-client --permanent
+</code></pre>
+
+<h3 id="desktop_1">desktop</h3>
+<h4 id="_7">临时挂载</h4>
+<pre><code>[root@desktop ~]# yum -y install cifs-utils samba-client
+[root@desktop ~]# mkdir /mnt/smbmount
+[root@desktop ~]# mount -t cifs -o username=smbrw,password=redhat //192.168.3.11/public /mnt/smbmount
+</code></pre>
+
+<h4 id="_8">多用户挂载，开机自动挂载</h4>
+<p><strong>用只读用户挂载，不同的用户可以更新不同凭证</strong><br/>
+<strong>/etc/fstab所有用户可读，将 samba 用户和密码保存到 root 家目录可提高安全性</strong></p>
+<pre><code>[root@desktop ~]# vim /etc/fstab
+//192.168.3.11/public /mnt/smbpmnt cifs credentials=/root/smbpass,multiuser,sec=ntlmssp 0 0
+[root@desktop ~]# echo &quot;username=smbro&quot;  &gt;&gt; /root/smbpass
+[root@desktop ~]# echo &quot;password=redhat&quot;  &gt;&gt; /root/smbpass
+[root@desktop ~]# mkdir /mnt/smbpub
+[root@desktop ~]# mount -a
+
+[user@desktop ~]# cifscreds add -u smbrw 192.168.3.11  ##更新用户凭证
+</code></pre>
+
+<h4 id="autofs_1">autofs 挂载</h4>
+<pre><code>[root@desktop ~]# yum -y install autofs
+[root@desktop ~]# vim /etc/auto.master
+/netshare（挂载目录上级目录） /etc/netauto（映射文件）
+[root@desktop ~]# vim /etc/netauto
+smbmount -fstype=cifs,username=smbro,password=redhat ://192.168.3.11/public
+</code></pre>
+
+<h4 id="samba-client">samba-client 上传下载</h4>
+<pre><code>[root@desktop ~]# yum -y install samba-client
+[root@desktop ~]# smbclient //172.25.0.11/public -U smbro%redhat
+smb: \&gt; lcd /etc
+smb: \&gt; put passwd
+NT_STATUS_ACCESS_DENIED opening remote file \passwd
+
+[root@desktop ~]# smbclient //172.25.0.11/public -U smbrw%redhat
+smb: \&gt; lcd /etc
+smb: \&gt; put passwd
+putting file passwd as \passwd (2091.6 kb/s) (average 2091.8 kb/s)
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

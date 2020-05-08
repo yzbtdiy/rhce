@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第6天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH134/" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH254/" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../day5/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../disk/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#6" class="nav-link">第6天</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">软件包管理</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_3" class="nav-link">文件系统</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_8" class="nav-link">虚拟化简介</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="6">第6天</h1>
+<h2 id="_1"><font color=red>软件包管理</font></h2>
+<ul>
+<li>源码编译安装</li>
+<li>rpm</li>
+<li>yum</li>
+</ul>
+<h3 id="rpm">rpm 命令选项</h3>
+<ul>
+<li>-i 安装</li>
+<li>-U 升级</li>
+<li>-e 卸载</li>
+<li>-v 详细信息</li>
+<li>-h 安装时显示进度</li>
+<li>-q 查询</li>
+</ul>
+<p>以下选项均需与 -q 连用
+* -a 所有已安装软件包
+* -l 列出 rpm 软件包所有内容
+* -c 列出 rpm 软件包配置文件
+* -i 列出软件包信息
+* -p 未安装的软件包
+* --scripts 安装或删除之后执行的脚本
+* --changelog 列出更改信息</p>
+<h3 id="yum">yum 命令</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>yum list ［NAME-PATTERN］</td>
+<td>按名称列出已安装和可用的软件包</td>
+</tr>
+<tr>
+<td>yum grouplist</td>
+<td>列出已安装和可用的组</td>
+</tr>
+<tr>
+<td>yum search KEYWORD</td>
+<td>按关键字搜索软件包</td>
+</tr>
+<tr>
+<td>yum info PACKAGENAME</td>
+<td>显示软件包的详细信息</td>
+</tr>
+<tr>
+<td>yum install PACKAGENAME</td>
+<td>安装软件包</td>
+</tr>
+<tr>
+<td>yum groupinstall GROUPNAME</td>
+<td>安装软件包组</td>
+</tr>
+<tr>
+<td>yum update</td>
+<td>更新所有软件包</td>
+</tr>
+<tr>
+<td>yum remove PACKAGENAME</td>
+<td>删除软件包</td>
+</tr>
+<tr>
+<td>yum history</td>
+<td>显示事务历史记录</td>
+</tr>
+</tbody>
+</table>
+<h3 id="yum-etcyumreposdrepo">yum 源配置文件 /etc/yum.repos.d/*.repo</h3>
+<pre><code>[repo_id]
+name = repo_name
+enabled = 1
+baseurl = http://...  ftp://...  file://...
+gpgcheck = 0    #若 gpgcheck 为 1，则需要指定 gpgkey = ...
+</code></pre>
+
+<p><strong>CentOS 可用 yum 源：</strong>https://wiki.centos.org/zh/AdditionalResources/Repositories</p>
+<h3 id="_2">源码编译安装</h3>
+<ul>
+<li>安装 编译器，一般是 <code>gcc</code>，也可以安装包组 <code>Development tools</code></li>
+<li>从软件官网下载源码包，通常是 tar 包</li>
+<li>到解压目录下执行 <code>./configure</code> 进行预编译，<code>./configure --help</code> 查看预编译选项</li>
+<li>补充依赖组件，再次预编译（多次），直到生成 makefile</li>
+<li>执行 <code>make</code> 进行编译</li>
+<li>执行 <code>make install</code> 进行安装</li>
+</ul>
+<hr />
+<h2 id="_3"><font color=red>文件系统</font></h2>
+<h4 id="io">I/O 设备</h4>
+<p>I/O设备大致分为两类：块设备和字符设备。
+* 块设备将信息存储在固定大小的块中，每个块都有自己的地址。块设备的基本特征是每个块都能独立于其它块而读写。磁盘是最常见的块设备。
+* 字符设备是指在I/O传输过程中以字符为单位进行传输的设备，例如键盘，打印机等。</p>
+<p><a href="../disk/">硬盘简介</a></p>
+<h4 id="_4">文件系统</h4>
+<p><strong>文件的系统是操作系统用于明确磁盘或分区上的文件的方法和数据结构，即在磁盘上组织文件的方法。</strong></p>
+<ul>
+<li>Windows 常用文件系统 NTFS，FAT32，exFAT</li>
+<li>Linux 常用文件系统 XFS，Ext4</li>
+</ul>
+<h4 id="_5">常用命令</h4>
+<ul>
+<li>fdisk                          分区工具</li>
+<li>lsblk                          查看块设备</li>
+<li>blkid                          查看分区，UUID，文件系统</li>
+<li>mkfs                          格式化，写入文件系统</li>
+<li>df                               查看文件系统挂载及使用情况</li>
+<li>mount，umount    文件系统的挂载和卸载</li>
+</ul>
+<h4 id="_6">软链接和硬链接</h4>
+<blockquote>
+<p>命令 <code>ln</code>硬链接    <code>ln -s</code>软链接</p>
+</blockquote>
+<ul>
+<li>硬链接直接引用文件系统中的文件</li>
+<li>所有硬链接权限，链接数，属主、属组，时间戳，文件内容保持一致</li>
+<li>删除某个硬链接其它硬链接仍能访问改文件</li>
+<li>硬链接不能跨文件系统</li>
+<li>软链接又叫符号链接，指向现有文件或目录</li>
+<li>删除该文件或目录后，软链接不可用</li>
+<li>软链接可以跨文件系统</li>
+</ul>
+<h4 id="_7">文件查找</h4>
+<p><strong>locate</strong>
+* 从预生成的数据库中查找，数据库每天更新
+* 当前新建文件或目录可能无法查找
+* 使用 updatedb 可以及时更新数据库
+* -i 忽略大小写，-n 指定行数</p>
+<p><strong>find</strong>
+* 对整个文件系统实时搜索</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-i</td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td>-name</td>
+<td>指定文件名</td>
+</tr>
+<tr>
+<td>-user，-uid</td>
+<td>指定用户名或 uid</td>
+</tr>
+<tr>
+<td>-group，-gid</td>
+<td>指定组名或 gid</td>
+</tr>
+<tr>
+<td>-perm</td>
+<td>指定权限，/ U，G，O 中至少匹配一位（或），- U，G，O 至少各匹配一位（与）</td>
+</tr>
+<tr>
+<td>-size</td>
+<td>指定大小，+ 大于，- 小于</td>
+</tr>
+<tr>
+<td>-mmin</td>
+<td>指定时间（分钟），+ 分钟前，- 分钟内</td>
+</tr>
+<tr>
+<td>-type</td>
+<td>指定类型，f 文件，d 目录，l 软链接，b 块设备</td>
+</tr>
+<tr>
+<td>-links</td>
+<td>指定硬连接数，+ 大于，-小于</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_8"><font color=red>虚拟化简介</font></h2>
+<h3 id="_9">常见虚拟化</h3>
+<ul>
+<li>xen 开源免费的虚拟化软件，基于硬件的完全分割，物理上有多少的资源就只能分配多少资源。</li>
+<li>kvm 开源免费的虚拟化软件，Linux 下的全功能虚拟化架构，甚至拥有独立的BIOS控制，所以对母服务器性能影响较大。</li>
+<li>vmware 是付费的虚拟化软件，VPS（含独立面板）系列产品授权费用非常昂贵。</li>
+<li>hyper-v 比较特别，是微软 windows 附带的虚拟化组件，如果你买了足够的授权，hyper-v 可以免费使用，Hyper-V 专为 Windows 定制，管理起来较为方便，虽然目前也支持 Linux，但性能损失比较严重。。</li>
+</ul>
+<h3 id="qemu-kvm">qemu 与 kvm</h3>
+<ul>
+<li>Qemu 是纯软件实现的虚拟化模拟器，几乎可以模拟任何硬件设备，我们最熟悉的就是能够模拟一台能够独立运行操作系统的虚拟机，虚拟机认为自己和硬件打交道，但其实是和 Qemu 模拟出来的硬件打交道，Qemu 将这些指令转译给真正的硬件。</li>
+<li>正因为 Qemu 是纯软件实现的，所有的指令都要经 Qemu 过一手，性能非常低，所以，在生产环境中，大多数的做法都是配合 KVM 来完成虚拟化工作，因为 KVM 是硬件辅助的虚拟化技术，主要负责 比较繁琐的 CPU 和内存虚拟化，而 Qemu 则负责 I/O 虚拟化，两者合作各自发挥自身的优势，相得益彰。</li>
+</ul>
+<h3 id="kvm">kvm 简介</h3>
+<ul>
+<li>KVM 是开源软件，全称是kernel-based virtual machine（基于内核的虚拟机）。</li>
+<li>KVM 是 x86 架构且硬件支持虚拟化技术（如 intel VT 或 AMD-V）的Linux全虚拟化解决方案。</li>
+<li>KVM 包含一个为处理器提供底层虚拟化可加载的核心模块kvm.ko（kvm-intel.ko或kvm-AMD.ko）。</li>
+<li>KVM 需要一个经过修改的QEMU软件（qemu-kvm），作为虚拟机上层控制和界面。</li>
+<li>KVM能在不改变 linux 或 windows 镜像的情况下同时运行多个虚拟机，（它的意思是多个虚拟机使用同一镜像）并为每一个虚拟机配置个性化硬件环境（网卡、磁盘、图形适配器……）。</li>
+<li>在 2.6.20 以上的内核均已包含了KVM核心。</li>
+<li>要求cpu 必须支持虚拟化。</li>
+<li>作为服务器性能很好，cpu 使用率控制很好，控制上比较简洁，功能比较丰富，可是图形能力较差。</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第2天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH124/" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH254/" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH254/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../day1/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../day3/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#2" class="nav-link">第2天</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">进程优先级</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#acl" class="nav-link">ACL 访问控制列表</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#selinux" class="nav-link">SELinux</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="2">第2天</h1>
+<h2 id="_1"><font color=red>进程优先级</font></h2>
+<p><img alt="" src="../images/nice.png" /></p>
+<ul>
+<li>Linux 实现了 140 个优先级范围，取值范围是从 -100~39，这个值越小，优先级越高</li>
+<li>用户不可控 priority（PR）值，但可以定义 nice（NI）值</li>
+<li>nice 值的 -20~19，映射到实际的优先级范围是 0~39</li>
+<li>nice（NI）反应进程优先级状态的值，其取值范围是 -20 至 19，一共 40 个级别</li>
+<li>nice 值越小，表示进程”优先级”越高，而值越大优先级越低</li>
+<li>普通用户只能提升使用正的 nice 级别，且只能提升 nice 级别，即只能降低优先级</li>
+<li>root 用户可以使用完整 nice 级别</li>
+<li><code>nice -n NICE_LEVEL COMMAND</code> 命令用于新建进程时指定优先级</li>
+<li><code>renice -n NICE_LEVEL PID</code> 修改运行中进程的优先级。</li>
+</ul>
+<h2 id="acl"><font color=red>ACL 访问控制列表</font></h2>
+<p>ACL 允许向文件分配细化权限，除标准的属主、属组和其他文件权限外，还可以给特定用户和特定的组，以及由 UID 或 GID 确定的用户和组授予权限。</p>
+<ul>
+<li>
+<p><code>ls -l</code> 列出内容权限部分后面为 <code>+</code> 代表此文件或目录有 acl 权限</p>
+</li>
+<li>
+<p><code>getfacl</code> 用于查看 acl 详细信息</p>
+</li>
+<li>
+<p><code>setfacl</code> 用于修改 acl 权限</p>
+</li>
+<li><code>getfacl -R directory &gt; bakfile</code> 可以将输出结果保存为文件，<code>-p</code> 选项使用绝对路径<br/><code>setfacl --restore=bakfile</code> 可以读取保存的文件进行恢复</li>
+<li>最大有效权限 mask 限制通过 acl 赋予特定用户或组的权限</li>
+</ul>
+<p><strong>setfacl 选项</strong></p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-m</td>
+<td>设定 ACL 权限</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>删除指定的 ACL 权限</td>
+</tr>
+<tr>
+<td>-b</td>
+<td>删除所有的 ACL 权限</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>设定默认 ACL 权限，只对目录生效，目录中新建立的文件拥有此默认权限</td>
+</tr>
+<tr>
+<td>-k</td>
+<td>删除默认 ACL 权限</td>
+</tr>
+<tr>
+<td>-R</td>
+<td>递归设定 ACL 权限， ACL 权限会对目录下的所有子文件生效</td>
+</tr>
+</tbody>
+</table>
+<h2 id="selinux"><font color=red>SELinux</font></h2>
+<ul>
+<li>SELinux 是用于确定进程可以访问那些文件、目录和端口的一组安全规则。</li>
+<li>每个文件、进程和端口都具有特别的安全标签，称为 SELinux 上下文，用来确定某个进程能否访问文件，目录和端口。</li>
+<li>SELinux 标签具有多种上下文：用户、角色、类型和敏感度，SELinux 目标策略根据类型上下文制定规则。</li>
+</ul>
+<h3 id="1">1. 文件目录上下文</h3>
+<h4 id="_2">查看文间或目录当前的上下文</h4>
+<pre><code>ls -Zd /PATH
+</code></pre>
+
+<h4 id="_3">修改文件或目录当前的上下文</h4>
+<pre><code>chcon -R -t TYPT /PATH
+</code></pre>
+
+<h4 id="selinux_1">查看 SELinux 制定的文件或目录上下文策略</h4>
+<pre><code>semanage fcontext -l | grep TYPE
+</code></pre>
+
+<h4 id="_4">制定新的文件或目录上下文策略</h4>
+<pre><code>semanage fcontext -a -t TYPE '/PATH(/.*)?'
+</code></pre>
+
+<p><strong>删除上下文将 <code>-a</code> 改为 <code>-d</code></strong></p>
+<h4 id="selinux_2">根据 SELinux 策略修正文件或目录的上下文</h4>
+<pre><code>restorecon -Rv /PATH
+</code></pre>
+
+<h3 id="2_1">2.端口上下文</h3>
+<h4 id="selinux_3">查看 SELinux 制定的端口上下文</h4>
+<pre><code>semanage port -l | grep TYPE
+</code></pre>
+
+<h4 id="_5">添加端口到端口上下文</h4>
+<pre><code>semanage port -a -t TYPE -p tcp/udp/icmp PORT
+</code></pre>
+
+<p><strong>删除端口将 <code>-a</code> 改为 <code>-d</code></strong></p>
+<h3 id="3">3.布尔值</h3>
+<h4 id="selinux_4">查看 SELinux 制定的布尔值</h4>
+<pre><code>semanage boolean -l | grep TYPE
+或者
+getsebool -a | grep TYPE
+</code></pre>
+
+<h4 id="selinux_5">修改 SElinux 的布尔值</h4>
+<pre><code>semanage boolean --modify TYPE --on
+或者
+setsebool -P TYPE on
+</code></pre>
+
+<p><strong><code>on</code> 为启用布尔值，<code>off</code> 为关闭布尔值</strong></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

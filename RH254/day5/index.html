@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>第5天 - RHEL7学习笔记</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RHEL7学习笔记</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">关于</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH124 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH124/" class="dropdown-item">RH124</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day5/" class="dropdown-item">第5天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/day6/" class="dropdown-item">第6天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/disk/" class="dropdown-item">硬盘结构</a>
+</li>
+                                    
+<li>
+    <a href="../../RH124/ps_kill/" class="dropdown-item">练习 16：处理进程，`ps`，`kill`</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH134 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RH134/" class="dropdown-item">RH134</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="../../RH134/day5/" class="dropdown-item">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RH254 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">RH254</a>
+</li>
+                                    
+<li>
+    <a href="../day1/" class="dropdown-item">第1天</a>
+</li>
+                                    
+<li>
+    <a href="../day2/" class="dropdown-item">第2天</a>
+</li>
+                                    
+<li>
+    <a href="../day3/" class="dropdown-item">第3天</a>
+</li>
+                                    
+<li>
+    <a href="../day4/" class="dropdown-item">第4天</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">第5天</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../day4/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#5" class="nav-link">第5天</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#mariadb" class="nav-link">mariadb 数据库</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="5">第5天</h1>
+<h2 id="mariadb">mariadb 数据库</h2>
+<h3 id="_1"><font color=red>基础操作</font></h3>
+<h4 id="mariadb_1">安装 mariadb</h4>
+<pre><code>[root@server ~]# yum -y install mariadb mariadb-server
+</code></pre>
+
+<h4 id="mariadb_2">启动 mariadb 服务</h4>
+<pre><code>[root@server ~]# systemctl restart mariadb
+</code></pre>
+
+<h4 id="_2">初始化</h4>
+<p><strong>设置 root 密码，移除匿名用户，关闭远程访问等一系列安全操作</strong></p>
+<pre><code>[root@server ~]# mysql_secure_installation
+</code></pre>
+
+<h4 id="rootredhat">用数据库的root用户登录，密码为redhat</h4>
+<pre><code>[root@server ~]# mysql -uroot -predhat
+</code></pre>
+
+<h4 id="_3">查看数据库</h4>
+<pre><code>MariaDB [(none)]&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+</code></pre>
+
+<h4 id="_4">创建数据库</h4>
+<pre><code>MariaDB [(none)]&gt; create database testsql;
+</code></pre>
+
+<h4 id="_5">使用数据库</h4>
+<pre><code>MariaDB [(none)]&gt; use testsql;
+MariaDB [testsql]&gt;
+</code></pre>
+
+<h4 id="_6">查看数据表</h4>
+<pre><code>MariaDB [testsql]&gt; show tables;
+</code></pre>
+
+<h4 id="_7">创建表</h4>
+<pre><code>MariaDB [testsql]&gt; create table user(id int(3),name varchar(30));
+</code></pre>
+
+<h4 id="_8">插入数据</h4>
+<pre><code>MariaDB [testsql]&gt; insert into user values(1,'zhangsan');
+
+MariaDB [testsql]&gt; insert into user values(2,'lisi');
+
+MariaDB [testsql]&gt; insert into user values(3,'wangwu');
+</code></pre>
+
+<h4 id="_9">查看表中数据</h4>
+<pre><code>MariaDB [testsql]&gt; select * from user;
++------+----------+
+| id   | name     |
++------+----------+
+| 1    | zhangsan |
+| 2    | lisi     |
+| 3    | wangwu   |
++------+----------+
+</code></pre>
+
+<h4 id="id1">删除id为1的数据</h4>
+<pre><code>MariaDB [testsql]&gt; delete from user where id=1;
+
+MariaDB [testsql]&gt; select * from user;
++------+--------+
+| id   | name   |
++------+--------+
+| 2    | lisi   |
+| 3    | wangwu |
++------+--------+
+</code></pre>
+
+<h4 id="id3namezhaoliu">更新id为3的数据name字段为zhaoliu</h4>
+<pre><code>MariaDB [testsql]&gt; update user set name=&quot;zhaoliu&quot; where id=3;
+
+MariaDB [testsql]&gt; select * from user;
++------+---------+
+| id   | name    |
++------+---------+
+| 2    | lisi    |
+| 3    | zhaoliu |
++------+---------+
+</code></pre>
+
+<h4 id="_10">删除数据表</h4>
+<pre><code>MariaDB [testsql]&gt; drop table user;
+</code></pre>
+
+<h4 id="testsql">删除testsql数据库</h4>
+<pre><code>MariaDB [testsql]&gt; drop database testsql;
+</code></pre>
+
+<h4 id="_11">创建数据库用户</h4>
+<pre><code>MariaDB [(none)]&gt; create user testuser@localhost identified by '1234';
+</code></pre>
+
+<h4 id="_12">赋予用户权限</h4>
+<pre><code>MariaDB [(none)]&gt; grant select,insert,update,delete on testsql.* to testuser@localhost;
+</code></pre>
+
+<h4 id="_13">撤销用户权限</h4>
+<pre><code>MariaDB [(none)]&gt; revoke select,insert,update,delete on testsql.* from testuser@localhost;
+</code></pre>
+
+<h4 id="_14">删除用户</h4>
+<pre><code>MariaDB [(none)]&gt; delete from mysql.user where user='testuser';
+</code></pre>
+
+<h4 id="_15">刷新权限</h4>
+<pre><code>MariaDB [(none)]&gt; flush privileges;
+</code></pre>
+
+<h3 id="mariadb-root"><font color=red>重置 mariadb root 密码</font></h3>
+<h4 id="mycnf">编辑 my.cnf 文件</h4>
+<pre><code>[root@desktop ~]# vim /etc/my.cnf
+[mysqld]
+# 添加skip-grant-tables即可，修改完密码后删除此行
+skip-grant-tables
+</code></pre>
+
+<h4 id="_16">重启服务，重新加载配置文件</h4>
+<pre><code>[root@desktop ~]# systemctl restart mariadb
+</code></pre>
+
+<h4 id="_17">直接无密码登录</h4>
+<pre><code>[root@desktop ~]# mysql
+MariaDB [(none)]&gt;
+</code></pre>
+
+<h4 id="root">修改root密码</h4>
+<pre><code>MariaDB [(none)]&gt; update mysql.user set password=password('root') where user='root';
+</code></pre>
+
+<h4 id="_18">刷新权限</h4>
+<pre><code>MariaDB [(none)]&gt; flush privileges;
+</code></pre>
+
+<h4 id="_19">用新密码登录</h4>
+<p><strong>修改完密码记得删除 my.cnf 文件里的 skip-grant-tables</strong></p>
+<pre><code>[root@desktop ~]# mysql -uroot -proot
+MariaDB [(none)]&gt;
+</code></pre>
+
+<h3 id="mariadb_3"><font color=red>mariadb 主从复制</font></h3>
+<h3 id="master">master</h3>
+<h4 id="_20">开启二进制日志</h4>
+<pre><code>[root@server ~]# vim /etc/my.cnf
+[mysqld]
+... ...
+server-id=11
+log-bin=/var/lib/mysql/master_bin_log
+binlog_format=mixed
+[root@server ~]# systemctl restart mariadb
+</code></pre>
+
+<h4 id="_21">创建同步账号</h4>
+<pre><code>[root@server ~]# mysql -uroot -predhat
+MariaDB [(none)]&gt; grant replication slave on *.* to 'slave'@'%' identified by 'redhat';
+MariaDB [(none)]&gt; flush privileges;
+</code></pre>
+
+<h4 id="log">备份数据库，查看 log 文件及位置</h4>
+<pre><code>MariaDB [(none)]&gt; flush tables with read lock;
+[root@server ~]# mysqldump -uroot -predhat --all-databases &gt; bakdb.sql
+MariaDB [(none)]&gt; show master status;
++----------------------+----------+--------------+------------------+
+| File                 | Position | Binlog_Do_DB | Binlog_Ignore_DB |
++----------------------+----------+--------------+------------------+
+| master_bin_log.000001 |      328 |              |                  |
++----------------------+----------+--------------+------------------+
+1 row in set (0.00 sec)
+MariaDB [(none)]&gt; unlock tables;
+</code></pre>
+
+<h3 id="slave">slave</h3>
+<h4 id="_22">开启二进制日志</h4>
+<pre><code>[root@desktop ~]# vim /etc/my.cnf
+[mysqld]
+... ...
+server-id=10
+relay-log=/var/lib/mysql/slave_bin_log
+[root@desktop ~]# systemctl restart mariadb
+</code></pre>
+
+<h4 id="_23">导入备份数据</h4>
+<pre><code>[root@desktop ~]# scp root@192.168.3.11:/root/bakdb.sql .
+[root@desktop ~]# mysql -uroot -predhat &lt; bakdb.sql
+</code></pre>
+
+<h4 id="slave_1">开启 slave</h4>
+<pre><code>MariaDB [(none)]&gt; change master to master_host='192.168.3.11',master_user='slave',master_password='redhat',master_log_file='master_bin_log.000001',master_log_pos=328;
+MariaDB [(none)]&gt; start slave;
+MariaDB [(none)]&gt; show slave status\G
+... ...
+            Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+... ...
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
